@@ -67,7 +67,8 @@ public class LogWriter {
 			case tabaco:
 				message += " tabaco";
 				break;
-			case vacio:
+			case fosforo:
+				message += " fosforo";
 				break;
 		}
 		return message;

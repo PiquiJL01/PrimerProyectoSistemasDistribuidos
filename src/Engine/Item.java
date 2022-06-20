@@ -1,5 +1,5 @@
 package Engine;
 
 public enum Item{
-	papel, tabaco, vacio
+	papel, tabaco, fosforo;
 }

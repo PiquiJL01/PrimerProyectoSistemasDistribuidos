@@ -1,39 +1,34 @@
 package Engine;
-import java.util.concurrent.ThreadLocalRandom;
-
 public class Stand {
-	private Item item1;
-	private Item item2;
+	private Item ingredient;
+	private boolean isOccupied;
+	private boolean hasIngredient;
+	private Seller seller;
 	
-	public Stand() {
-		abastecer();
+	public Stand(Seller seller) {
+		this.seller = seller;
+		this.ingredient = seller.selectItem();
+		this.isOccupied = false;
+		this.hasIngredient = true;
+	}
+
+	public synchronized void refillIngredient(Item newIngredient) throws InterruptedException {
+		if (!this.hasIngredient()) this.ingredient = newIngredient;
 	}
 	
-	private Item RNGItem() {
-		int randomNum = ThreadLocalRandom.current().nextInt(1, 2 + 1);
-		if(randomNum == 1) {
-			return Item.papel;
-		}
-		else {
-			return Item.tabaco;
-		}
-	}
-	
-	public boolean Revisar(Item item) {
-		if(item1 == item) {
-			item1 = Item.vacio;
-			return true;
-		}
-		if(item2 == item) {
-			item2 = Item.vacio;
-			return true;
-		}
+	public synchronized boolean hasIngredient() throws InterruptedException {
+		if (this.hasIngredient) return true;
 		return false;
 	}
-	
-	public Item abastecer() {
-		item1 = RNGItem();
-		item2 = item1;
-		return item1;
+
+	public synchronized Item pickIngredient() throws InterruptedException {
+		Item pickedItem = this.ingredient;
+		this.hasIngredient = false;
+		this.ingredient = null;
+		return pickedItem;
 	}
+
+	public synchronized boolean hasSmoker() throws InterruptedException {
+		return this.isOccupied = true;
+	} 
 }
