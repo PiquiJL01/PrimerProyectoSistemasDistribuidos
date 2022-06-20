@@ -10,12 +10,13 @@ public class Smoker extends Thread {
 	private Item infiniteIngredient;
 	private List<Item> missingIngedients;
 	private boolean smoking; 
-	private Stand stand;
+	private List<Stand> stands;
 
-	Smoker (Item infiniteIngredient) {
+	Smoker (Item infiniteIngredient, List<Stand> stands) {
 		this.infiniteIngredient = infiniteIngredient;
 		this.missingIngedients = new ArrayList<>();
 		this.smoking = false;
+		this.stands = stands;
 	}
 
 	private boolean iWantToSmoke () {
@@ -26,18 +27,28 @@ public class Smoker extends Thread {
 
 	public void finishSmoking () {
 		this.smoking = false;
+		System.out.println("Fumador [" + infiniteIngredient +"] termino su cigarro");
+		notifyAll();
 	}
 	
-	public void startSmoke () {
+	public void startSmoke (List<Item> ingredients) {
+
+		// while(smoking) wait();
+
+		addMissingIngredients(ingredients);
+
 		if (iWantToSmoke() && !smoking) {
 			this.useIngredients();
 			this.smoking = true;
+			System.out.println("Fumador [" + infiniteIngredient +"] empieza su cigarro");
+
+			notifyAll();
 		}
 	}
 
-	public void addMissingIngredient (Item item) {
-		if (!this.missingIngedients.contains(item) && item != this.infiniteIngredient) {
-			this.missingIngedients.add(item);
+	public void addMissingIngredients (List<Item> ingredients) {
+		if (!ingredients.contains(this.infiniteIngredient)) {
+			this.missingIngedients.addAll(ingredients);
 		}
 	}
 
@@ -52,8 +63,8 @@ public class Smoker extends Thread {
 	public void run () {
 		while (true) {
 			try {
-				if (!stand.hasSmoker()) {
-					this.startSmoke();
+				for (Stand stand : stands) {
+					this.startSmoke(stand.giveIngredient());
 					Thread.sleep(5000);
 					this.finishSmoking();
 					Thread.sleep(3000);

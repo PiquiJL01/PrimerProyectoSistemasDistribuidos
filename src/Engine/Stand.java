@@ -1,34 +1,48 @@
 package Engine;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Stand {
-	private Item ingredient;
+	private List<Item> ingredients;
 	private boolean isOccupied;
 	private boolean hasIngredient;
-	private Seller seller;
 	
-	public Stand(Seller seller) {
-		this.seller = seller;
-		this.ingredient = seller.selectItem();
+	public Stand() {
+		this.ingredients = new ArrayList<>();
 		this.isOccupied = false;
 		this.hasIngredient = true;
 	}
 
-	public synchronized void refillIngredient(Item newIngredient) throws InterruptedException {
-		if (!this.hasIngredient()) this.ingredient = newIngredient;
+	public synchronized void refillIngredient(List<Item> newIngredients) throws InterruptedException {
+		
+		while(isOccupied || hasIngredient) wait(); // Si esta ocupado o tiene un ingrediente espera para llenar
+		
+		this.ingredients.addAll(newIngredients);
+		this.hasIngredient = true;
+		System.out.println("El vendedor coloca [" + this.ingredients + "]");
+		notifyAll();
 	}
 	
-	public synchronized boolean hasIngredient() throws InterruptedException {
-		if (this.hasIngredient) return true;
-		return false;
-	}
+	
+	public synchronized List<Item> giveIngredient() throws InterruptedException {
 
-	public synchronized Item pickIngredient() throws InterruptedException {
-		Item pickedItem = this.ingredient;
+		while (!ingredients.isEmpty()) wait();
+
+		List<Item> pickedItems = this.ingredients;
 		this.hasIngredient = false;
-		this.ingredient = null;
-		return pickedItem;
+		this.ingredients = null;
+		System.out.println("El fumador ha agarrado ¨"+ pickedItems + " ");
+		notifyAll();
+		return pickedItems;
 	}
-
-	public synchronized boolean hasSmoker() throws InterruptedException {
-		return this.isOccupied = true;
-	} 
+	
+	// public synchronized boolean hasIngredient() throws InterruptedException {
+	// 	if (this.hasIngredient) return true;
+	// 	return false;
+	// }
+	// public synchronized boolean hasSmoker() throws InterruptedException {
+	// 	if (this.isOccupied) return true;
+	// 	return false;
+	// } 
 }
