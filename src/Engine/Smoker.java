@@ -23,26 +23,22 @@ public class Smoker extends Thread {
 		return this.infiniteIngredient;
 	}
 
-	private boolean iWantToSmoke () {
+	public boolean iWantToSmoke () {
 		List<Item> compareList = new LinkedList<>(Arrays.asList(Item.values()));
 		compareList.remove(this.infiniteIngredient);
 		return this.missingIngedients.containsAll(compareList) ? true : false;
 	}
 
-	public synchronized void finishSmoking () {
+	public void finishSmoking () {
 
 		this.smoking = false;
 		System.out.println("Fumador [" + infiniteIngredient +"] termino su cigarro");
-		notifyAll();
 	}
 	
-	public synchronized void startSmoke (List<Item> ingredients) throws InterruptedException {
+	public void startSmoke (Stand stand) throws InterruptedException {
+		addMissingIngredients(stand.giveIngredient(this));
 
-		while(smoking || missingIngedients.isEmpty()) wait();
-
-		addMissingIngredients(ingredients);
-
-		if (iWantToSmoke() && !smoking) {
+		if (!smoking) {
 			this.useIngredients();
 			this.smoking = true;
 			System.out.println("Fumador [" + infiniteIngredient +"] empieza su cigarro");
@@ -56,7 +52,7 @@ public class Smoker extends Thread {
 		}
 	}
 
-	private void useIngredients () {
+	public void useIngredients () {
 		this.missingIngedients.clear();
 	}
 
@@ -68,9 +64,9 @@ public class Smoker extends Thread {
 		while (true) {
 			try {
 				for (Stand stand : stands) {
-					this.startSmoke(stand.giveIngredient(this));
+					stand.startSmoke(this);
 					Thread.sleep(5000);
-					this.finishSmoking();
+					stand.finishSmoking(this);
 					Thread.sleep(3000);
 				}
 			} catch (InterruptedException e) {

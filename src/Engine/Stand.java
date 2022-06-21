@@ -52,28 +52,18 @@ public class Stand {
 		return pickedItems;
 	}
 
-	// public synchronized void finishSmoking () {
-	// 	// while ()
-		
-	// 	this.isOccupied = false;
-	// 	System.out.println("Fumador [" + infiniteIngredient +"] termino su cigarro");
-	// 	notifyAll();
-	// }
+	public synchronized void finishSmoking (Smoker smoker) {
+
+		smoker.finishSmoking();
+		notifyAll();
+	}
 	
-	// public synchronized void startSmoke (List<Item> ingredients) throws InterruptedException {
+	public synchronized void startSmoke ( Smoker smoker) throws InterruptedException {
 
-	// 	while(smoking || missingIngedients.isEmpty()) wait();
+		while(isOccupied || ingredents.isEmpty() || smoker.iWantToSmoke()) wait();
 
-	// 	addMissingIngredients(ingredients);
-
-	// 	if (iWantToSmoke() && !smoking) {
-	// 		this.useIngredients();
-	// 		this.smoking = true;
-	// 		System.out.println("Fumador [" + infiniteIngredient +"] empieza su cigarro");
-
-	// 		notifyAll();
-	// 	}
-	// }
+		smoker.startSmoke(this);
+	}
 
 	
 	// public synchronized boolean hasIngredient() throws InterruptedException {
