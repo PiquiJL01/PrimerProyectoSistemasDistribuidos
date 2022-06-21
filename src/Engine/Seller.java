@@ -23,22 +23,21 @@ public class Seller extends Thread {
 		return itemsList;
 	}
 
-	// public void addItemToStand (Stand stand) {
-	// 	try {
-	// 		if (stands.contains(stand)) stand.refillIngredient(selectItems());
-	// 	} catch (InterruptedException e) {
-	// 		e.printStackTrace();
-	// 	}
-	// }
+	public void addItemToStand (Stand stand) {
+		try {
+			if (stands.contains(stand)) stand.refillIngredient(selectItems());
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void run () {
 		while (true) {
-			List<Item> newIngredients = selectItems();
 			try {
 				// necesito ir chequeando los stands para llenarlos
 				for (Stand stand : stands) {
 					Thread.sleep(2000);
-					stand.refillIngredient(newIngredients);
+					this.addItemToStand(stand);
 					Thread.sleep(2000);
 				}
 			} catch (InterruptedException e) {

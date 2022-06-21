@@ -20,19 +20,19 @@ public class Stand {
 		
 		this.ingredients.addAll(newIngredients);
 		this.hasIngredient = true;
-		System.out.println("El vendedor coloca [" + this.ingredients + "]");
+		System.out.println("El vendedor coloca " + this.ingredients);
 		notifyAll();
 	}
 	
 	
-	public synchronized List<Item> giveIngredient() throws InterruptedException {
+	public synchronized List<Item> giveIngredient(Smoker smoker) throws InterruptedException {
 
 		while (!ingredients.isEmpty()) wait();
 
 		List<Item> pickedItems = this.ingredients;
 		this.hasIngredient = false;
-		this.ingredients = null;
-		System.out.println("El fumador ha agarrado ¨"+ pickedItems + " ");
+		this.ingredients.clear();
+		System.out.println("El fumador [" + smoker +"] ha agarrado ¨"+ pickedItems + "");
 		notifyAll();
 		return pickedItems;
 	}

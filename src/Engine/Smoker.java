@@ -64,7 +64,7 @@ public class Smoker extends Thread {
 		while (true) {
 			try {
 				for (Stand stand : stands) {
-					this.startSmoke(stand.giveIngredient());
+					this.startSmoke(stand.giveIngredient(this));
 					Thread.sleep(5000);
 					this.finishSmoking();
 					Thread.sleep(3000);
