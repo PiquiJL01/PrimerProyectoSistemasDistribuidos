@@ -55,6 +55,7 @@ public class Stand {
 	public synchronized void finishSmoking (Smoker smoker) {
 
 		smoker.finishSmoking();
+		this.isOccupied = false;
 		notifyAll();
 	}
 	
@@ -62,7 +63,9 @@ public class Stand {
 
 		while(isOccupied || ingredents.isEmpty() || smoker.iWantToSmoke()) wait();
 
+		this.isOccupied = true;
 		smoker.startSmoke(this);
+
 	}
 
 	
