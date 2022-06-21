@@ -19,21 +19,26 @@ public class Smoker extends Thread {
 		this.stands = stands;
 	}
 
+	public Item getInfiniteIngredient() {
+		return this.infiniteIngredient;
+	}
+
 	private boolean iWantToSmoke () {
 		List<Item> compareList = new LinkedList<>(Arrays.asList(Item.values()));
 		compareList.remove(this.infiniteIngredient);
 		return this.missingIngedients.containsAll(compareList) ? true : false;
 	}
 
-	public void finishSmoking () {
+	public synchronized void finishSmoking () {
+
 		this.smoking = false;
 		System.out.println("Fumador [" + infiniteIngredient +"] termino su cigarro");
 		notifyAll();
 	}
 	
-	public void startSmoke (List<Item> ingredients) {
+	public synchronized void startSmoke (List<Item> ingredients) throws InterruptedException {
 
-		// while(smoking) wait();
+		while(smoking || missingIngedients.isEmpty()) wait();
 
 		addMissingIngredients(ingredients);
 
@@ -42,7 +47,6 @@ public class Smoker extends Thread {
 			this.smoking = true;
 			System.out.println("Fumador [" + infiniteIngredient +"] empieza su cigarro");
 
-			notifyAll();
 		}
 	}
 
