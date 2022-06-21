@@ -26,7 +26,7 @@ public class Smoker extends Thread {
 	public boolean iWantToSmoke () {
 		List<Item> compareList = new LinkedList<>(Arrays.asList(Item.values()));
 		compareList.remove(this.infiniteIngredient);
-		return this.missingIngedients.containsAll(compareList) ? true : false;
+		return this.missingIngedients.containsAll(compareList);
 	}
 
 	public void finishSmoking () {
@@ -38,7 +38,7 @@ public class Smoker extends Thread {
 	public void startSmoke (Stand stand) throws InterruptedException {
 		addMissingIngredients(stand.giveIngredient(this));
 
-		if (!smoking) {
+		if (!smoking && iWantToSmoke()) {
 			this.useIngredients();
 			this.smoking = true;
 			System.out.println("Fumador [" + infiniteIngredient +"] empieza su cigarro");

@@ -44,11 +44,15 @@ public class Stand {
 		while (ingredents.isEmpty() || !this.hasIngredent) wait();
 
 		List<Item> pickedItems = new ArrayList<>();
-		pickedItems.addAll(this.ingredents);
-		this.hasIngredent = false;
-		this.ingredents.clear();
-		System.out.println("El fumador [" + smoker.getInfiniteIngredient() +"] ha agarrado " + pickedItems);
-		notifyAll();
+		
+		if (!this.ingredents.contains(smoker.getInfiniteIngredient())) {
+			pickedItems.addAll(this.ingredents);
+			this.hasIngredent = false;
+			this.ingredents.clear();
+			System.out.println("El fumador [" + smoker.getInfiniteIngredient() +"] ha agarrado " + pickedItems);
+			notifyAll();
+		}
+
 		return pickedItems;
 	}
 
