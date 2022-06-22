@@ -10,7 +10,7 @@ public class Seller extends Thread {
 
 	private final ArrayList<Stand> stands;
 
-	Seller (ArrayList<Stand> stands) {
+	public Seller (ArrayList<Stand> stands) {
 		this.stands = stands;
 	}
 

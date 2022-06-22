@@ -72,13 +72,4 @@ public class Stand {
 
 	}
 
-	
-	// public synchronized boolean hasIngredient() throws InterruptedException {
-	// 	if (this.hasIngredient) return true;
-	// 	return false;
-	// }
-	// public synchronized boolean hasSmoker() throws InterruptedException {
-	// 	if (this.isOccupied) return true;
-	// 	return false;
-	// } 
 }

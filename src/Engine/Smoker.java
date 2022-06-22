@@ -12,7 +12,7 @@ public class Smoker extends Thread {
 	private boolean smoking; 
 	private List<Stand> stands;
 
-	Smoker (Item infiniteIngredient, List<Stand> stands) {
+	public Smoker (Item infiniteIngredient, List<Stand> stands) {
 		this.infiniteIngredient = infiniteIngredient;
 		this.missingIngedients = new ArrayList<>();
 		this.smoking = false;
