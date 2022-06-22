@@ -38,7 +38,7 @@ public class Smoker extends Thread {
 	public void startSmoke (Stand stand) throws InterruptedException {
 		addMissingIngredients(stand.giveIngredient(this));
 
-		if (!smoking && iWantToSmoke()) {
+		if (!this.smoking && this.iWantToSmoke()) {
 			this.useIngredients();
 			this.smoking = true;
 			System.out.println("Fumador [" + infiniteIngredient +"] empieza su cigarro");
@@ -64,6 +64,7 @@ public class Smoker extends Thread {
 		while (true) {
 			try {
 				for (Stand stand : stands) {
+					// System.out.println("stand");
 					stand.startSmoke(this);
 					Thread.sleep(5000);
 					stand.finishSmoking(this);

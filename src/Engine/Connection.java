@@ -10,7 +10,7 @@ public class Connection {
     private final String HOST = "localhost";
     // protected String 
     protected ServerSocket ss;
-    protected Socket cs;
+    protected static Socket cs;
     protected DataOutputStream outputDataClient, outputDataServer;
     
     protected Connection (String type) throws IOException{

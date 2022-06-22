@@ -1,31 +1,42 @@
 package Client;
 
 import java.io.IOException;
-import java.net.Socket;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import Engine.Connection;
 import Engine.Item;
+import Engine.Smoker;
 // import Engine.Smoker;
 import Engine.Stand;
 
 public class CigaretteClient extends Connection {
 
-    protected CigaretteClient(String type) throws IOException {
+    // private Socket socket;
+
+    protected CigaretteClient() throws IOException {
         super("client");
+
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         
-        ThreadClient cigaretterCliente = new ThreadClient();
+        CigaretteClient client = new CigaretteClient();
 
-        try {
-            while (true) {
+        client.startClient();
 
-            }
-        } catch (Exception e) {
-            //TODO: handle exception
-        }
+    }
+
+    public void startClient() throws IOException, ClassNotFoundException {
+
+        List<Stand> list = new ArrayList<>();
+            // Obtiene la lista de stand del servidor
+        ObjectInputStream ois = new ObjectInputStream(cs.getInputStream());
+        list = (ArrayList<Stand>) ois.readObject();
+        
+        Smoker cigaretteSmoker = new Smoker(Item.tabaco, list);
+        cigaretteSmoker.start();
 
     }
     

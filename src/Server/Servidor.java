@@ -1,11 +1,9 @@
 package Server;
 
 import java.io.IOException;
-import java.net.*;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import Client.IThreadClient;
-import Client.ThreadClient;
 import Engine.Connection;
 import Engine.Stand;
 
@@ -28,8 +26,12 @@ public class Servidor extends Connection {
 		
 		while (true) {
 			cs = ss.accept();
-			ThreadClient client = (ThreadClient) new Thread((Runnable) cs);
-			client.start();
+
+			ObjectOutputStream oss = new ObjectOutputStream(cs.getOutputStream());
+			oss.writeObject(stands);
+
+			// Thread client = new Thread(cs);
+			// client.start();
 		}
 	}
 

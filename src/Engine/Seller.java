@@ -1,12 +1,13 @@
 package Engine;
 
+// import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Seller extends Thread {
+public class Seller extends Thread  {
 
 	private final ArrayList<Stand> stands;
 
@@ -25,11 +26,12 @@ public class Seller extends Thread {
 
 	public void addItemToStand (Stand stand) {
 		try {
-			if (stands.contains(stand)) stand.refillIngredient(selectItems());
+			stand.refillIngredient(selectItems());
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
+
 
 	public void run () {
 		while (true) {

@@ -1,12 +1,13 @@
 package Engine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Stand {
+public class Stand implements Serializable {
 	private List<Item> ingredents;
 	private boolean isOccupied;
 	private boolean hasIngredent;
@@ -52,20 +53,19 @@ public class Stand {
 			System.out.println("El fumador [" + smoker.getInfiniteIngredient() +"] ha agarrado " + pickedItems);
 			notifyAll();
 		}
-
+		
 		return pickedItems;
 	}
 
 	public synchronized void finishSmoking (Smoker smoker) {
-
-		smoker.finishSmoking();
 		this.isOccupied = false;
+		smoker.finishSmoking();
 		notifyAll();
 	}
 	
 	public synchronized void startSmoke ( Smoker smoker) throws InterruptedException {
 
-		while(isOccupied || ingredents.isEmpty() || smoker.iWantToSmoke()) wait();
+		while(isOccupied || ingredents.isEmpty() || ingredents.contains(smoker.getInfiniteIngredient())) wait();
 
 		this.isOccupied = true;
 		smoker.startSmoke(this);
