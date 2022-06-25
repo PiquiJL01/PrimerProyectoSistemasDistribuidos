@@ -1,17 +1,17 @@
 package Engine;
 
-import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Stand implements Serializable {
+public class Stand {
 	private Item ingredent;
 	// private List<Item> ingredents;
 	private boolean isOccupied;
 	private boolean hasIngredent;
 	
-	public Stand() {
+	public Stand(Boolean initial) {
 		// this.ingredent = new ArrayList<>();
-		this.ingredent = addInitialIngredent();
+		if (initial) this.ingredent = addInitialIngredent();
+		this.ingredent = null;
 		this.isOccupied = false;
 		this.hasIngredent = true;
 	}

@@ -28,7 +28,6 @@ public class CigaretteClient extends Connection implements Runnable {
             client = new CigaretteClient();
             client.runClient();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -44,7 +43,6 @@ public class CigaretteClient extends Connection implements Runnable {
             threadClient.start();
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -56,41 +54,57 @@ public class CigaretteClient extends Connection implements Runnable {
             this.outputObjectClient = new ObjectOutputStream(this.cs.getOutputStream());
             this.inputObjectClient = new ObjectInputStream(this.cs.getInputStream());
 
-            Accion action = (Accion) this.inputObjectClient.readObject();
+            //Accion action = (Accion) this.inputObjectClient.readObject();
 
             while (true) { 
 
-                switch (action) {
-                    case buscar:
-                        // buscara en el servidor un stand con el item que necesita (envia)
-                        if (this.cigaretteSmoker.getAction() == Accion.buscar) {
-                            //envio al fumador al servidor para que busque 
-                            outputObjectClient.writeObject(this.cigaretteSmoker);
-                        }
-                        break;
-                    case fumar:
-                        //cuando tenga los items que necesita fumara (envia)
-                        if (this.cigaretteSmoker.getAction() == Accion.fumar) {
-                            // envio al fumador al servidor para ponerlo en un banco a fumar
-                            outputObjectClient.writeObject(this.cigaretteSmoker);
-                        }
-                    break;
-                    case pedir:
-                        // si no ha encontrado los dos items en el servidor, pedira mas (envia)
+                // Accion smokerAction = this.cigaretteSmoker.getAction();
+                // this.outputObjectClient.writeObject(smokerAction);
 
-                        if (this.cigaretteSmoker.orderNewIngredients());
+                outputObjectClient.writeObject(this.cigaretteSmoker);
 
-                    break;
-                    case recibir:
-                        // recibira los items del servidor (recibe)
-                        break;
-                    default:
-                        break;
-                }
+
+                // if (smokerAction != Accion.recibir) {
+                //     outputObjectClient.writeObject(this.cigaretteSmoker);
+                // } else {
+                //     inputObjectClient.readObject();
+                // }
+
+                // switch (action) {
+                //     case buscar:
+                //         // buscara en el servidor un stand con el item que necesita (envia)
+                //         if (smokerAction == Accion.buscar) {
+                //             //envio al fumador al servidor para que busque 
+                //             outputObjectClient.writeObject(this.cigaretteSmoker);
+                //         }
+                //         break;
+                //     case fumar:
+                //         //cuando tenga los items que necesita fumara (envia)
+                //         if (smokerAction == Accion.fumar) {
+                //             // envio al fumador al servidor para ponerlo en un banco a fumar
+                //             outputObjectClient.writeObject(this.cigaretteSmoker);
+                //         }
+                //     break;
+                //     case pedir:
+                //         // si no ha encontrado los dos items en el servidor, pedira mas (envia)
+
+                //         if (smokerAction == Accion.pedir) {
+                //             this.cigaretteSmoker.orderNewIngredients();
+                //         }
+                //     break;
+                //     case recibir:
+                //         // recibira los items del servidor (recibe)
+                //         if (smokerAction == Accion.recibir) {
+                //             inputObjectClient.readObject();
+                //         }
+                //         break;
+                //     default:
+                //         break;
+                // }
 
         }
         } catch (Exception e) {
-            //TODO: handle exception
+         e.getStackTrace();
         }
 
         
