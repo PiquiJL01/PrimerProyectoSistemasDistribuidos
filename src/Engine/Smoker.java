@@ -5,22 +5,31 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Smoker extends Thread {
+public class Smoker {
 
 	private Item infiniteIngredient;
 	private List<Item> missingIngedients;
 	private boolean smoking; 
-	private List<Stand> stands;
+	// private List<Stand> stands;
+	private Accion action;
 
-	public Smoker (Item infiniteIngredient, List<Stand> stands) {
+	public Smoker (Item infiniteIngredient) {
 		this.infiniteIngredient = infiniteIngredient;
 		this.missingIngedients = new ArrayList<>();
 		this.smoking = false;
-		this.stands = stands;
+		this.action = Accion.buscar;
+	}
+
+	public Accion getAction () {
+		return this.action;
 	}
 
 	public Item getInfiniteIngredient() {
 		return this.infiniteIngredient;
+	}
+
+	public List<Item> getMissingIngredients() {
+		return this.missingIngedients;
 	}
 
 	public boolean iWantToSmoke () {
@@ -34,21 +43,22 @@ public class Smoker extends Thread {
 		this.smoking = false;
 		System.out.println("Fumador [" + infiniteIngredient +"] termino su cigarro");
 	}
+
+	// public void 
 	
 	public void startSmoke (Stand stand) throws InterruptedException {
-		addMissingIngredients(stand.giveIngredient(this));
+		addMissingIngredient(stand.giveIngredient(this));
 
-		if (!this.smoking && this.iWantToSmoke()) {
+		if (!this.smoking) {
 			this.useIngredients();
 			this.smoking = true;
 			System.out.println("Fumador [" + infiniteIngredient +"] empieza su cigarro");
-
 		}
 	}
 
-	public void addMissingIngredients (List<Item> ingredients) {
-		if (!ingredients.contains(this.infiniteIngredient)) {
-			this.missingIngedients.addAll(ingredients);
+	public void addMissingIngredient (Item ingredient) {
+		if (ingredient != null && ingredient != this.infiniteIngredient && !missingIngedients.contains(ingredient)) { 
+			this.missingIngedients.add(ingredient);
 		}
 	}
 
@@ -60,20 +70,26 @@ public class Smoker extends Thread {
 
 	}
 
-	public void run () {
-		while (true) {
-			try {
-				for (Stand stand : stands) {
-					// System.out.println("stand");
-					stand.startSmoke(this);
-					Thread.sleep(5000);
-					stand.finishSmoking(this);
-					Thread.sleep(3000);
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	// public void run () {
+	// 	while (true) {
+	// 		try {
+	// 			for (Stand stand : stands) {
+	// 				// System.out.println("stand");
+	// 				if (this.iWantToSmoke()) {
+	// 					stand.startSmoke(this);
+	// 					Thread.sleep(5000);
+	// 					stand.finishSmoking(this);
+	// 					Thread.sleep(3000);
+	// 				} else {
+	// 					this.addMissingIngredient(stand.giveIngredient(this));
+	// 					System.out.println("Fumador [" + infiniteIngredient +"] esta buscando mas ingredientes. Actual: " + this.missingIngedients);
+
+	// 				}	
+	// 			}
+	// 		} catch (InterruptedException e) {
+	// 			e.printStackTrace();
+	// 		}
+	// 	}
+	// }
 
 }

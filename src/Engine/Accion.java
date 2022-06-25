@@ -1,9 +1,9 @@
 package Engine;
 
 public enum Accion {
+	buscar,
 	pedir,
-	recibe,
-	entrega,
-	solicitar,
+	fumar,
+	recibir,
 	abastecer
 }

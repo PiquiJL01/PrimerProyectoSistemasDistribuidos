@@ -20,8 +20,9 @@ public class MatchClient extends Connection {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         
         MatchClient client = new MatchClient();
-
+        System.out.println("estoy activo");
         client.startClient();
+        System.out.println("termine");
 
     }
 

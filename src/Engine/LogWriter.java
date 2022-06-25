@@ -36,15 +36,15 @@ public class LogWriter {
 			case pedir:
 				message += "Se pidio al ";
 				break;
-			case recibe:
-				message += "Se recibe del ";
-				break;
-			case entrega:
-				message += "Se entrega del ";
-				break;
-			case solicitar:
-				message += "Se solicita abastecer al ";
-				break;
+			// case recibe:
+			// 	message += "Se recibe del ";
+			// 	break;
+			// case entrega:
+			// 	message += "Se entrega del ";
+			// 	break;
+			// case solicitar:
+			// 	message += "Se solicita abastecer al ";
+			// 	break;
 			case abastecer:
 				message += "Se abastece al ";
 				break;

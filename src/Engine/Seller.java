@@ -1,27 +1,26 @@
 package Engine;
 
-// import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Seller extends Thread  {
+public class Seller extends Thread implements Serializable {
 
-	private final ArrayList<Stand> stands;
+	// private final List<Stand> stands;
+	private Accion action;
 
-	public Seller (ArrayList<Stand> stands) {
-		this.stands = stands;
+	public Seller () {
+		// this.stands = stands;
 	}
 
-	public List<Item> selectItems() {
+	public Item selectItems() {
 		int randomNum = ThreadLocalRandom.current().nextInt(0, Item.values().length);
-		Item item = Item.values()[randomNum];
+		return Item.values()[randomNum];
+		// Item item = Item.values()[randomNum];
 
-		List<Item> itemsList = new LinkedList<>(Arrays.asList(Item.values()));
-		itemsList.remove(item);
-		return itemsList;
+		// List<Item> itemsList = new LinkedList<>(Arrays.asList(Item.values()));
+		// itemsList.remove(item);
+		// return itemsList;
 	}
 
 	public void addItemToStand (Stand stand) {
@@ -33,18 +32,18 @@ public class Seller extends Thread  {
 	}
 
 
-	public void run () {
-		while (true) {
-			try {
-				// necesito ir chequeando los stands para llenarlos
-				for (Stand stand : stands) {
-					Thread.sleep(2000);
-					this.addItemToStand(stand);
-					Thread.sleep(2000);
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	// public void run () {
+	// 	while (true) {
+	// 		try {
+	// 			// necesito ir chequeando los stands para llenarlos
+	// 			for (Stand stand : stands) {
+	// 				Thread.sleep(2000);
+	// 				this.addItemToStand(stand);
+	// 				Thread.sleep(2000);
+	// 			}
+	// 		} catch (InterruptedException e) {
+	// 			e.printStackTrace();
+	// 		}
+	// 	}
+	// }
 }

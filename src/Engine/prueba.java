@@ -14,17 +14,17 @@ public class prueba {
         stands.add(stand3);
 
 
-        Smoker smoker1 = new Smoker(Item.fosforo, stands);
-        Smoker smoker2 = new Smoker(Item.papel, stands);
-        Smoker smoker3 = new Smoker(Item.tabaco, stands);
+        // Smoker smoker1 = new Smoker(Item.fosforo, stands);
+        // Smoker smoker2 = new Smoker(Item.papel, stands);
+        // Smoker smoker3 = new Smoker(Item.tabaco, stands);
 
-        Seller seller = new Seller(stands);
+        // Seller seller = new Seller(stands);
 
-        seller.start();
+        // seller.start();
 
-        smoker1.start();
-        smoker2.start();
-        smoker3.start();
+        // smoker1.start();
+        // smoker2.start();
+        // smoker3.start();
         
     }
 }
