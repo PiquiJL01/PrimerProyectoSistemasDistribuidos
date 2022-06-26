@@ -1,3 +1,4 @@
 module PrimerProyectoSistemasDistribuidos {
-	requires java.rmi;
+	//requires java.rmi;
+    requires rt;
 }

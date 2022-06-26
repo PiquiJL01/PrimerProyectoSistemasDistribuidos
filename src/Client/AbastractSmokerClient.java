@@ -70,8 +70,6 @@ public abstract class AbastractSmokerClient extends Connection implements Runnab
                 threadClient.start();
                 threadClient.join();
             }
-            
-
         } catch (IOException | InterruptedException  e) {
             e.printStackTrace();
         }
