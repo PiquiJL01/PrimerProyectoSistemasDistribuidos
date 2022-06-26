@@ -1,95 +1,81 @@
 package Server;
 
 import java.io.IOException;
+// import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import Engine.Accion;
-import Engine.Connection;
 import Engine.Item;
+// import Engine.Connection;
+// import Engine.Item;
 import Engine.Seller;
 import Engine.Smoker;
 import Engine.Stand;
 
-public class Servidor extends Thread {
+public class Servidor extends Thread  {
 
-	private ObjectOutputStream out;
-	private ObjectInputStream in;
+	private ObjectInputStream inSmoker, inAction, inItem;
+    private ObjectOutputStream outSmoker, outAction, outItem;
 	private ArrayList<Stand> stands;
+	private Accion action;
 	
-	public Servidor(ObjectInputStream in, ObjectOutputStream out) {
-		Stand stand1 = new Stand(true);
-		Stand stand2 = new Stand(true);
-		Stand stand3 = new Stand(false);
+	public Servidor(ArrayList<Stand> stands, ObjectInputStream inSmoker, ObjectOutputStream outSmoker, ObjectInputStream inAction, ObjectOutputStream outAction, ObjectInputStream inItem, ObjectOutputStream outItem) {
 
-		stands.add(stand1);
-        stands.add(stand2);
-        stands.add(stand3);
+		this.stands = stands;
 
-		this.in = in;
-		this.out = out;
+		this.inSmoker = inSmoker;
+		this.outSmoker = outSmoker;;
+		this.inAction = inAction;
+		this.outAction = outAction;
+		this.inItem = inItem;
+		this.outItem = outItem;
+		
 	}
 
 	@Override
 	public void run() {
 
 		try {
+			while (true) {
 
-			Smoker recivedSmoker;
-			Seller recivedSeller;
+				this.action = (Accion) inAction.readObject();
 
-			while(true) {
+				if(action.equals(Accion.buscar)) {
+					//recibo y no termino hasta tener los ingredientes para fumar
+					Smoker smoker = (Smoker) inSmoker.readObject();
 
-				Accion recivedAction = (Accion) in.readObject();
-	 
-				for (Stand stand : stands) {
-					
-					recivedSmoker = (Smoker) in.readObject();
-					recivedSeller = (Seller) in.readObject();
-				
-					if (recivedSmoker.iWantToSmoke()) {
-						stand.startSmoke(recivedSmoker);
-						Thread.sleep(2000);
-						stand.finishSmoking(recivedSmoker);
-						Thread.sleep(2000);
+					for (Stand stand: stands) {
+						//siempre busco en los bancos
+						stand.startSmoke(smoker);
+						Thread.sleep(1000);
+						stand.finishSmoking(smoker);
 					}
 
-					Thread.sleep(2000);
-					stand.refillIngredient(recivedSeller.selectItems());
-					Thread.sleep(2000);
-				
-					// if (recivedAction == Accion.buscar) {
-					// 	recivedSmoker = (Smoker) in.readObject();
-						
-					// }
-	
-					// if (recivedAction == Accion.abastecer) {
-					// 	recivedSeller = (Seller) in.readObject();
-						
-					// }
-
-					// if (recivedAction == Accion.pedir) {
-					// 	// pide al vendedor
-					// }
-
-					// if (recivedAction == Accion.fumar) {
-
-					// }
-
-					// if (recivedAction == Accion.recibir) {
-
-					// }
-						
 				}
 
-	
-	
+				if(action.equals(Accion.recibir)) {
+					Thread.sleep(2000);
+					System.out.println("Obteniendo recibir desde el cliente " + action);
+					
+				}
+
 			}
-		} catch (Exception e) {
+		} catch (Exception  e) {
 			e.printStackTrace();
 		}
 		
+	}
+
+
+	public void darleAlFumadorSuVaina(ArrayList<Stand> stands) {
+
+		for (Stand stand : stands) {
+			
+		}
+
+
 	}
 
 	

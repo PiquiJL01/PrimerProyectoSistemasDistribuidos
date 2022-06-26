@@ -7,13 +7,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Connection {
-    private final int PORT = 2507;
+    private final int PORT = 2508;
     private final String HOST = "localhost";
     // protected String 
     protected ServerSocket ss;
     protected Socket cs;
-    protected ObjectOutputStream outputObjectClient, outputObjectServer;
-    protected ObjectInputStream inputObjectClient, inputObjectServer;
+    protected ObjectInputStream inSmoker, inAction, inItem;
+    protected ObjectOutputStream outSmoker, outAction, outItem;
     
     protected Connection (String type) throws IOException{
         if (type.equalsIgnoreCase("server")) {

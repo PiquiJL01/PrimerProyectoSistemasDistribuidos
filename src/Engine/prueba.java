@@ -1,17 +1,17 @@
 package Engine;
 
-import java.util.ArrayList;
+// import java.util.ArrayList;
 
 public class prueba {
     public static void main(String[] args) {
-        Stand stand1 = new Stand();
-        Stand stand2 = new Stand();
-        Stand stand3 = new Stand();
+        // Stand stand1 = new Stand();
+        // Stand stand2 = new Stand();
+        // Stand stand3 = new Stand();
 
-        ArrayList<Stand> stands = new ArrayList<>();
-        stands.add(stand1);
-        stands.add(stand2);
-        stands.add(stand3);
+        // ArrayList<Stand> stands = new ArrayList<>();
+        // stands.add(stand1);
+        // stands.add(stand2);
+        // stands.add(stand3);
 
 
         // Smoker smoker1 = new Smoker(Item.fosforo, stands);

@@ -16,11 +16,6 @@ public class Seller extends Thread implements Serializable {
 	public Item selectItems() {
 		int randomNum = ThreadLocalRandom.current().nextInt(0, Item.values().length);
 		return Item.values()[randomNum];
-		// Item item = Item.values()[randomNum];
-
-		// List<Item> itemsList = new LinkedList<>(Arrays.asList(Item.values()));
-		// itemsList.remove(item);
-		// return itemsList;
 	}
 
 	public void addItemToStand (Stand stand) {

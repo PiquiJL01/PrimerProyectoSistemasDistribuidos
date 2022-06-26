@@ -1,8 +1,9 @@
 package Engine;
 
+import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Stand {
+public class Stand implements Serializable {
 	private Item ingredent;
 	// private List<Item> ingredents;
 	private boolean isOccupied;
@@ -10,69 +11,77 @@ public class Stand {
 	
 	public Stand(Boolean initial) {
 		// this.ingredent = new ArrayList<>();
-		if (initial) this.ingredent = addInitialIngredent();
-		this.ingredent = null;
+		if (initial == true) this.ingredent = addInitialIngredent();
+		else  this.ingredent = null;
 		this.isOccupied = false;
 		this.hasIngredent = true;
+	}
+
+	public Item getIngredent() {
+		return this.ingredent;
+	}
+
+	public boolean getIsOccupied() {
+		return this.isOccupied;
+	}
+
+	public boolean getHasIngredent() {
+		return this.hasIngredent;
 	}
 
 	private Item addInitialIngredent() {
 		int randomNum = ThreadLocalRandom.current().nextInt(0, Item.values().length);
 		return Item.values()[randomNum];
-		// Item item = Item.values()[randomNum];
-
-		// List<Item> itemsList = new LinkedList<>(Arrays.asList(Item.values()));
-		// itemsList.remove(item);
-		// return itemsList;
 	}
 	
 
-	public synchronized void refillIngredient(Item newIngredient) throws InterruptedException {
+	public void refillIngredient(Item newIngredient) throws InterruptedException {
 		
-		while(isOccupied || hasIngredent) wait(); // Si esta ocupado o tiene un ingrediente espera para llenar
-		
-		this.ingredent = newIngredient;
-		this.hasIngredent = true;
-		System.out.println("El vendedor coloca " + this.ingredent);
-		notifyAll();
+		if (!this.hasIngredent && !this.isOccupied) {
+			this.ingredent = newIngredient;
+			this.hasIngredent = true;
+			System.out.println("El vendedor coloca " + this.ingredent);
+		}
 	}
 	
 	
-	public synchronized Item giveIngredient(Smoker smoker) throws InterruptedException {
+	public Item giveIngredient(Smoker smoker) throws InterruptedException {
 
-		while (ingredent == null || !this.hasIngredent) wait();
-
-		// List<Item> pickedItems = new ArrayList<>();
 		Item pickedItem = null;
 		
-		if (this.ingredent != smoker.getInfiniteIngredient() && !smoker.getMissingIngredients().contains(this.ingredent)) {
+		if (this.ingredent != null && this.ingredent != smoker.getInfiniteIngredient() && !smoker.getMissingIngredients().contains(this.ingredent)) {
 			pickedItem = this.ingredent;
+			
 			this.ingredent = null;
 			this.hasIngredent = false;
-			// this.ingredents.clear();
+
+			if (smoker.iWantToSmoke()) smoker.setAction(Accion.fumar);
+
 			System.out.println("El fumador [" + smoker.getInfiniteIngredient() +"] ha agarrado [" + pickedItem + "]");
-			notifyAll();
+		}
+		else {
+			System.out.println("El fumador [" + smoker.getInfiniteIngredient() +"] no puede agarrar [" + pickedItem + "]");
 		}
 		
 		return pickedItem;
 	}
 
-	public synchronized void finishSmoking (Smoker smoker) {
+	public  void finishSmoking (Smoker smoker) throws InterruptedException {
 		this.isOccupied = false;
 		smoker.finishSmoking();
-		notifyAll();
+		Thread.sleep(2000);
 	}
 	
-	public synchronized void startSmoke ( Smoker smoker) throws InterruptedException {
+	public void startSmoke ( Smoker smoker) throws InterruptedException {
 
-		while(isOccupied || ingredent == null || ingredent == smoker.getInfiniteIngredient()) wait();
+
+		System.out.println("Intentando fumar 2");
 
 		if (smoker.iWantToSmoke()) {
 			this.isOccupied = true;
 			smoker.startSmoke(this);
+			Thread.sleep(2000);
 		}
-
-		// smoker.addMissingIngredient(this.giveIngredient(smoker));
 
 	}
 

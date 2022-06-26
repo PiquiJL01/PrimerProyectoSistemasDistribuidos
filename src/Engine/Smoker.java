@@ -1,27 +1,33 @@
 package Engine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Smoker {
+public class Smoker implements Serializable{
 
 	private Item infiniteIngredient;
 	private List<Item> missingIngedients;
 	private boolean smoking; 
-	// private List<Stand> stands;
 	private Accion action;
+	private int intentos;
 
 	public Smoker (Item infiniteIngredient) {
 		this.infiniteIngredient = infiniteIngredient;
 		this.missingIngedients = new ArrayList<>();
 		this.smoking = false;
 		this.action = Accion.buscar;
+		this.intentos = 0;
 	}
 
 	public Accion getAction () {
 		return this.action;
+	}
+
+	public void setAction (Accion action) {
+		this.action = action;
 	}
 
 	public Item getInfiniteIngredient() {
@@ -39,7 +45,7 @@ public class Smoker {
 	}
 
 	public void finishSmoking () {
-
+		this.action = Accion.buscar;
 		this.smoking = false;
 		System.out.println("Fumador [" + infiniteIngredient +"] termino su cigarro");
 	}
@@ -47,18 +53,23 @@ public class Smoker {
 	// public void 
 	
 	public void startSmoke (Stand stand) throws InterruptedException {
-		addMissingIngredient(stand.giveIngredient(this));
+		if (stand.getIngredent() != null) {
+			addMissingIngredient(stand.giveIngredient(this));
 
-		if (!this.smoking) {
-			this.useIngredients();
-			this.smoking = true;
-			System.out.println("Fumador [" + infiniteIngredient +"] empieza su cigarro");
+			if (!this.smoking && iWantToSmoke()) {
+				this.action = Accion.fumar;
+				this.useIngredients();
+				this.smoking = true;
+				System.out.println("Fumador [" + infiniteIngredient +"] empieza su cigarro");
+			}
 		}
 	}
 
 	public void addMissingIngredient (Item ingredient) {
 		if (ingredient != null && ingredient != this.infiniteIngredient && !missingIngedients.contains(ingredient)) { 
 			this.missingIngedients.add(ingredient);
+			this.action = Accion.recibir;
+			System.out.println("Fumador [" + infiniteIngredient +"] ha añadido "  + ingredient);
 		}
 	}
 
@@ -67,8 +78,10 @@ public class Smoker {
 	}
 
 	public void orderNewIngredients () {
-
+		if (this.intentos == 2) this.action = Accion.pedir;
 	}
+
+	
 
 	// public void run () {
 	// 	while (true) {

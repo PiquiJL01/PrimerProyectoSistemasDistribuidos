@@ -32,23 +32,23 @@ public class LogWriter {
 	
 	private static String CreateLogEntry(int standNumber, Accion accion, Item item) {
 		String message = "";
-		switch(accion) {
-			case pedir:
-				message += "Se pidio al ";
-				break;
-			// case recibe:
-			// 	message += "Se recibe del ";
-			// 	break;
-			// case entrega:
-			// 	message += "Se entrega del ";
-			// 	break;
-			// case solicitar:
-			// 	message += "Se solicita abastecer al ";
-			// 	break;
-			case abastecer:
-				message += "Se abastece al ";
-				break;
-		}
+		// switch(accion) {
+		// 	case pedir:
+		// 		message += "Se pidio al ";
+		// 		break;
+		// 	// case recibe:
+		// 	// 	message += "Se recibe del ";
+		// 	// 	break;
+		// 	// case entrega:
+		// 	// 	message += "Se entrega del ";
+		// 	// 	break;
+		// 	// case solicitar:
+		// 	// 	message += "Se solicita abastecer al ";
+		// 	// 	break;
+		// 	case abastecer:
+		// 		message += "Se abastece al ";
+		// 		break;
+		// }
 		switch(standNumber) {
 			case 1:
 				message += "stand 1";
