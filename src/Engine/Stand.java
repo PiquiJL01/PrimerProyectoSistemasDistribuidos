@@ -1,88 +1,32 @@
 package Engine;
 
-import java.io.Serializable;
-import java.util.concurrent.ThreadLocalRandom;
-
-public class Stand implements Serializable {
-	private Item ingredent;
-	// private List<Item> ingredents;
-	private boolean isOccupied;
-	private boolean hasIngredent;
+public class Stand {
+	protected Item ingredient1;
+	protected Item ingredient2;
 	
-	public Stand(Boolean initial) {
-		// this.ingredent = new ArrayList<>();
-		if (initial == true) this.ingredent = addInitialIngredent();
-		else  this.ingredent = null;
-		this.isOccupied = false;
-		this.hasIngredent = true;
+	public Stand() {
+		refill();
 	}
 
-	public Item getIngredent() {
-		return this.ingredent;
+	public void refill(){
+		ingredient1 = Item.randomItem();
+		Writer.WriteStandContent(ingredient1);
+		ingredient2 = Item.randomItem();
+		Writer.WriteStandContent(ingredient2);
 	}
 
-	public boolean getIsOccupied() {
-		return this.isOccupied;
-	}
-
-	public boolean getHasIngredent() {
-		return this.hasIngredent;
-	}
-
-	private Item addInitialIngredent() {
-		int randomNum = ThreadLocalRandom.current().nextInt(0, Item.values().length);
-		return Item.values()[randomNum];
-	}
-	
-
-	public void refillIngredient(Item newIngredient) throws InterruptedException {
-		
-		if (!this.hasIngredent && !this.isOccupied) {
-			this.ingredent = newIngredient;
-			this.hasIngredent = true;
-			System.out.println("El vendedor coloca " + this.ingredent);
+	public boolean getIngredient(Item item) {
+		if(item == ingredient1){
+			ingredient1 = null;
+			return true;
 		}
-	}
-	
-	
-	public Item giveIngredient(Smoker smoker) throws InterruptedException {
-
-		Item pickedItem = null;
-		
-		if (this.ingredent != null && this.ingredent != smoker.getInfiniteIngredient() && !smoker.getMissingIngredients().contains(this.ingredent)) {
-			pickedItem = this.ingredent;
-			
-			this.ingredent = null;
-			this.hasIngredent = false;
-
-			if (smoker.iWantToSmoke()) smoker.setAction(Accion.fumar);
-
-			System.out.println("El fumador [" + smoker.getInfiniteIngredient() +"] ha agarrado [" + pickedItem + "]");
+		if (item == ingredient2){
+			ingredient2 = null;
+			return true;
 		}
-		else {
-			System.out.println("El fumador [" + smoker.getInfiniteIngredient() +"] no puede agarrar [" + pickedItem + "]");
+		if((ingredient1 == null) && (ingredient2 == null)){
+			refill();
 		}
-		
-		return pickedItem;
+		return false;
 	}
-
-	public  void finishSmoking (Smoker smoker) throws InterruptedException {
-		this.isOccupied = false;
-		smoker.finishSmoking();
-		Thread.sleep(2000);
-	}
-	
-	public void startSmoke ( Smoker smoker) throws InterruptedException {
-
-
-		System.out.println("Intentando fumar 2");
-
-		if (smoker.iWantToSmoke()) {
-			this.isOccupied = true;
-			smoker.startSmoke(this);
-			Thread.sleep(2000);
-		}
-
-	}
-
 }

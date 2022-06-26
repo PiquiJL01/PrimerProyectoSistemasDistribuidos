@@ -1,87 +1,73 @@
 package Client;
 
-import java.io.IOException;
+import Engine.Accion;
+import Engine.Message;
+import Engine.StandNumber;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-import Engine.Accion;
-import Engine.Connection;
-import Engine.Item;
-import Engine.Seller;
+public class SellerClient{
+    protected ServerSocket sellerServerSocket;
+    protected Socket socket;
+    protected ObjectInputStream inputStream;
+    protected ObjectOutputStream outputStream;
 
-public class SellerClient extends Connection implements Runnable {
-
-    private Seller seller;
-
-    protected SellerClient() throws IOException {
-        super("client");
-        this.seller = new Seller();
-    }
-
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
-        
+    public static void main(String[] args) {
         try {
-            SellerClient sellerClient = new SellerClient();
-            sellerClient.runClient();
+            SellerClient client = new SellerClient();
+            client.run();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    public void runClient() {
-        try {
-
-            Thread threadClient = new Thread(this);
-            threadClient.start();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-
-    @Override
-    public void run() {
+    private void run() {
         
         try {
-           
-            this.outSmoker = new ObjectOutputStream(this.cs.getOutputStream());
-            this.inSmoker = new ObjectInputStream(this.cs.getInputStream());
-            this.outAction = new ObjectOutputStream(this.cs.getOutputStream());
-            this.inAction = new ObjectInputStream(this.cs.getInputStream());
-            this.outItem = new ObjectOutputStream(this.cs.getOutputStream());
-            this.inItem = new ObjectInputStream(this.cs.getInputStream());
-
-            while (true) {
-                
-                try {
-                    
-                    Accion accionFromServer = (Accion) inAction.readObject();
-
-
-                    if (accionFromServer.equals(Accion.abastecer)) {
-                        //epa necesito llenar el vicio manda ingredientes
-                        outItem.writeObject(seller.selectItems());
-                    }
-
-                    if (accionFromServer.equals(Accion.pedir)) {
-                        // el cliente no ha obtenido los items que necesita, manda mas
-                        outItem.writeObject(seller.selectItems());
-                    }
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+            while (true){
+                int sellerServerSocket = 2511;
+                this.sellerServerSocket = new ServerSocket(sellerServerSocket);
+                this.socket = this.sellerServerSocket.accept();
+                inputStream = new ObjectInputStream(this.socket.getInputStream());
+                String message = inputStream.readUTF();
+                socket.close();
+                if (Message.ReadAccion(message) == Accion.pedir){
+                    refillStand(StandNumber.Stand1);
+                    refillStand(StandNumber.Stand2);
+                    refillStand(StandNumber.Stand3);
                 }
-            
-
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    
+
+    private void refillStand(StandNumber standNumber){
+        try {
+            String HOST = "localhost";
+            int serverPORT1 = 2508;
+            int serverPORT2 = 2509;
+            int serverPORT3 = 2510;
+            switch (standNumber){
+                case Stand1:
+                    this.socket = new Socket(HOST, serverPORT1);
+                    break;
+                case Stand2:
+                    this.socket = new Socket(HOST, serverPORT2);
+                    break;
+                case Stand3:
+                    this.socket = new Socket(HOST, serverPORT3);
+                    break;
+            }
+            inputStream = new ObjectInputStream(this.socket.getInputStream());
+            outputStream = new ObjectOutputStream(this.socket.getOutputStream());
+            outputStream.writeUTF(Message.Send(Accion.abastecer));
+            outputStream.close();
+            socket.close();
+        }catch (Exception ignore){
+        }
+    }
 }
