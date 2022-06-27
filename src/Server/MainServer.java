@@ -1,10 +1,12 @@
 package Server;
 
+
 import Engine.*;
 
 public class MainServer {
     public static void main(String[] args) {
         try{
+
             Servidor threadServer1 = new Servidor(StandNumber.Stand1);
             Servidor threadServer2 = new Servidor(StandNumber.Stand2);
             Servidor threadServer3 = new Servidor(StandNumber.Stand3);

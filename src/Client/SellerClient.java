@@ -1,6 +1,7 @@
 package Client;
 
 import Engine.Accion;
+import Engine.LogWriter;
 import Engine.Message;
 import Engine.StandNumber;
 import Engine.Writer;
@@ -15,6 +16,7 @@ public class SellerClient{
     protected Socket socket;
     protected ObjectInputStream inputStream;
     protected ObjectOutputStream outputStream;
+    // private LogWriter log;
 
     public static void main(String[] args) {
         try {

@@ -1,12 +1,10 @@
 package Server;
 
-import java.io.IOException;
 // import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Objects;
 
 import Engine.*;
 
@@ -22,24 +20,6 @@ public class Servidor extends Thread  {
 	public Servidor(StandNumber standNumber){
 		this.standNumber = standNumber;
 		this.stand = new Stand();
-	}
-
-	private void setConnection(StandNumber standNumber) throws IOException {
-		int[] serverPorts = new int[] {2508, 2509, 2510};
-
-		switch (standNumber){
-			case Stand1:
-				serverSocket = new ServerSocket(serverPorts[0]);
-				break;
-			case Stand2:
-				serverSocket = new ServerSocket(serverPorts[1]);
-				break;
-			case Stand3:
-				serverSocket = new ServerSocket(serverPorts[2]);
-				break;
-		}
-
-		socket = new Socket();
 	}
 
 
@@ -62,10 +42,10 @@ public class Servidor extends Thread  {
 					break;
 			}
 			while (true){
-				Writer.Write("Creando Conexion");
+				// Writer.Write("Creando Conexion");
 				socket = new Socket();
-				Writer.Write("Conexion Creada");
-				Writer.Write("Oyendo");
+				// Writer.Write("Conexion Creada");
+				// Writer.Write("Oyendo");
 				this.socket = this.serverSocket.accept();
 				Writer.Write("Conectados");
 				this.inputStream = new ObjectInputStream(this.socket.getInputStream());
@@ -75,7 +55,7 @@ public class Servidor extends Thread  {
 					case Message.Buscar:
 						boolean flag = this.stand.getIngredient(Message.ReadItem(message));
 						if(flag){
-							Writer.Write("Inviando Paquete");
+							Writer.Write("Enviando Paquete");
 							this.outputStream.writeBoolean(true);
 						} else {
 							this.outputStream.writeBoolean(false);
@@ -87,12 +67,12 @@ public class Servidor extends Thread  {
 						break;
 				}
 				outputStream.close();
-				//socket.close();
-				Writer.Write("Conexion Cerrada");
+				// // socket.close();
+				// Writer.Write("Conexion Cerrada");
 			}
 		}
 		catch (Exception e){
-			Writer.Write(e.toString());
+			Writer.Write("Error: " + e.toString());
 		}
 	}
 }
