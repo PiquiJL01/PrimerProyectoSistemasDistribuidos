@@ -94,6 +94,12 @@ public abstract class SmokerClient {
                     }catch (Exception e3){
                         TimeUnit.SECONDS.sleep(2);
                         Writer.Write("No se consiguio en los stands");
+
+                        this.requestNumber += 1;
+                        if (this.requestNumber == 2){
+                            this.requestNewIngredients();
+                            this.requestNumber = 0;
+                        }
                     }
                 }
             }
@@ -104,6 +110,9 @@ public abstract class SmokerClient {
     public void SearchIngredient(StandNumber standNumber) throws Exception{
         // Writer.Write("Buscando ingrediente");
         // Thread.sleep(2000);
+
+        
+
         for (Item i: Item.Items) {
             if(!this.Ingredients.get(i)){
                 Writer.Write("Buscando [" + i.toString() + "] en el " + standNumber);
@@ -111,16 +120,16 @@ public abstract class SmokerClient {
                 try{
                     setConnection(standNumber);
                     // Writer.Write("Enviando Mensaje");
-                    // Thread.sleep(500);
+                    Thread.sleep(500);
                     outputStream.writeUTF(Message.Buscar + i.toString());
                     // Writer.Write("Mensaje Enviado");
-                    // Thread.sleep(500);
+                    Thread.sleep(500);
                     outputStream.flush();
                     // Writer.Write("Leyendo Respuesta");
-                    // Thread.sleep(500);
+                    Thread.sleep(500);
                     boolean inMessage = inputStream.readBoolean();
                     // Writer.Write("Mensaje recibido");
-                    // Thread.sleep(2000);
+                    Thread.sleep(2000);
                     outputStream.close();
                     socket.close();
                     if (inMessage){
@@ -130,11 +139,7 @@ public abstract class SmokerClient {
                     }else {
                         Writer.Write("Ingrediente no Conseguido");
                         Thread.sleep(500);
-                        this.requestNumber += 1;
-                        if (this.requestNumber == 2){
-                            this.requestNewIngredients();
-                            this.requestNumber = 0;
-                        }
+                        
 
                         throw new Exception();
                     }
