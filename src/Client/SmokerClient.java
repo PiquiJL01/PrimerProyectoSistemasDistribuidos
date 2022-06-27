@@ -44,24 +44,28 @@ public class SmokerClient {
     public void run() throws Exception {
         int requestNumber = 0;
         while(true){
-            TimeUnit.SECONDS.sleep(5);
+            TimeUnit.SECONDS.sleep(1);
             try {
                 Writer.Write("Buscando en el stand 1");
                 this.SearchIngredient(StandNumber.Stand1);
                 System.out.println("Buscando en stand: " );
             } catch (Exception e){
                 try{
+                    TimeUnit.SECONDS.sleep(1);
                     Writer.Write("Buscando en el stand 2");
                     this.SearchIngredient(StandNumber.Stand2);
                 }catch (Exception e2){
                     try{
+                        TimeUnit.SECONDS.sleep(1);
                         Writer.Write("Buscando en el stand 3");
                         this.SearchIngredient(StandNumber.Stand3);
                     }catch (Exception e3){
+                        TimeUnit.SECONDS.sleep(1);
                         Writer.Write("No se consiguio en los stands");
                         requestNumber += 1;
                         if (requestNumber == 2){
                             this.requestNewIngredients();
+                            requestNumber = 0;
                         }
                     }
                 }
@@ -79,7 +83,7 @@ public class SmokerClient {
                 try{
                     setConnection(standNumber);
                     Writer.Write("Enviando Mensaje");
-                    outputStream.writeUTF(Message.Send(Accion.buscar.toString(), i.toString()));
+                    outputStream.writeUTF(Message.Buscar + i.toString());
                     Writer.Write("Mensaje Enviado");
                     outputStream.flush();
                     Writer.Write("Leyendo Respuesta");
@@ -129,7 +133,7 @@ public class SmokerClient {
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
 
-        outputStream.writeUTF(Message.Send(Accion.pedir.toString()));
+        outputStream.writeUTF(Message.Pedir);
         outputStream.flush();
         outputStream.close();
         socket.close();
@@ -152,7 +156,7 @@ public class SmokerClient {
                }
             }
             Writer.Write("Fumando");
-            TimeUnit.SECONDS.sleep(120);
+            TimeUnit.SECONDS.sleep(5);
         }
     }
 }

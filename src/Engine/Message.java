@@ -1,14 +1,14 @@
 package Engine;
 
 public class Message {
-    private static final String Buscar = "Buscar";
-    private static final String Pedir = "Pedir";
-    private static final String Recibir= "Recibir";
-    private static final String Abastecer = "Abastecer";
-    private static final String Error = "Error";
-    private static final String Papel = "Papel";
-    private static final String Tabaco = "Tabaco";
-    private static final String Fosforo = "Fosforo";
+    public static final String Buscar = "Buscar";
+    public static final String Pedir = "Pedir";
+    public static final String Recibir= "Recibir";
+    public static final String Abastecer = "Abastecer";
+    public static final String Error = "Error";
+    public static final String Papel = "Papel";
+    public static final String Tabaco = "Tabaco";
+    public static final String Fosforo = "Fosforo";
 
     public static String Send(String accion){
         return accion;
@@ -26,35 +26,35 @@ public class Message {
 
     public static String ReadAccion(String message) throws Exception {
         if(message.contains(Buscar)){
-            return Accion.buscar.toString();
+            return Buscar;
         }
         if(message.contains(Pedir)){
-            return Accion.pedir.toString();
+            return Pedir;
         }
         if (message.contains(Recibir)) {
-            return Accion.pedir.toString();
+            return Pedir;
         }
         if (message.contains(Abastecer)){
-            return Accion.abastecer.toString();
+            return Abastecer;
         }
         if (message.contains(Error)){
-            return "";
+            return Error;
         }
         throw new Exception();
     }
 
     public static String ReadItem(String message) throws Exception{
         if (message.contains(Papel)){
-            return Item.papel.toString();
+            return Papel;
         }
         if (message.contains(Tabaco)){
-            return Item.tabaco.toString();
+            return Tabaco;
         }
         if (message.contains(Fosforo)){
-            return Item.fosforo.toString();
+            return Fosforo;
         }
         if (message.contains(Error)){
-            return "";
+            return Error;
         }
         throw new Exception();
     }

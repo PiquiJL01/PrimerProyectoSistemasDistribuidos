@@ -24,7 +24,6 @@ public class SellerClient{
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private void run() {
@@ -40,9 +39,9 @@ public class SellerClient{
                 inputStream = new ObjectInputStream(this.socket.getInputStream());
                 outputStream = new ObjectOutputStream(this.socket.getOutputStream());
                 String message = inputStream.readUTF();
-                Writer.Write("Mensaje Recibido" + message);
+                Writer.Write("Mensaje Recibido: " + message);
                 socket.close();
-                if (Message.ReadAccion(message) == Accion.pedir.toString()){
+                if (message == Message.Pedir){
                     refillStand(StandNumber.Stand1);
                     refillStand(StandNumber.Stand2);
                     refillStand(StandNumber.Stand3);
@@ -73,7 +72,7 @@ public class SellerClient{
             }
             inputStream = new ObjectInputStream(socket1.getInputStream());
             outputStream = new ObjectOutputStream(socket1.getOutputStream());
-            outputStream.writeUTF(Message.Send(Accion.abastecer.toString()));
+            outputStream.writeUTF(Message.Abastecer);
             outputStream.close();
             socket.close();
         }catch (Exception ignore){

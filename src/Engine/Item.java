@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Random;
 
 public enum Item{
-	papel("Papel"),
-	tabaco("Tabaco"),
-	fosforo("Fosforo");
+	papel(Message.Papel),
+	tabaco(Message.Tabaco),
+	fosforo(Message.Fosforo);
 
 	private final String text;
 
