@@ -46,28 +46,49 @@ public class Servidor extends Thread  {
 	@Override
 	public void run() {
 		try {
-			while (true){
-				setConnection(standNumber);
-				this.socket = this.serverSocket.accept();
-				this.inputStream = new ObjectInputStream(socket.getInputStream());
-				Writer.Write(this.inputStream.readUTF());
+			int serverPORT1 = 2508;
+			int serverPORT2 = 2509;
+			int serverPORT3 = 2510;
 
+			switch (standNumber){
+				case Stand1:
+					serverSocket = new ServerSocket(serverPORT1);
+					break;
+				case Stand2:
+					serverSocket = new ServerSocket(serverPORT2);
+					break;
+				case Stand3:
+					serverSocket = new ServerSocket(serverPORT3);
+					break;
+			}
+			while (true){
+				Writer.Write("Creando Conexion");
+				socket = new Socket();
+				Writer.Write("Conexion Creada");
+				Writer.Write("Oyendo");
+				this.socket = this.serverSocket.accept();
+				Writer.Write("Conectados");
+				this.inputStream = new ObjectInputStream(this.socket.getInputStream());
+				this.outputStream = new ObjectOutputStream(this.socket.getOutputStream());
 				String message = this.inputStream.readUTF();
-				switch (Objects.requireNonNull(Message.ReadAccion(message))){
-					case buscar:
-						if(this.stand.getIngredient(Message.ReadItem(message))){
-							this.outputStream.writeUTF(Message.Send(Accion.recibir));
+				switch (Message.ReadAccion(message)){
+					case "Buscar":
+						boolean flag = this.stand.getIngredient(Message.ReadItem(message));
+						if(flag){
+							Writer.Write("Inviando Paquete");
+							this.outputStream.writeBoolean(true);
 						} else {
-							this.outputStream.writeUTF(Message.SendError());
+							this.outputStream.writeBoolean(false);
 						}
 						this.outputStream.flush();
 						break;
-					case abastecer:
+					case "Abastecer":
 						this.stand.refill();
 						break;
 				}
 				outputStream.close();
-				socket.close();
+				//socket.close();
+				Writer.Write("Conexion Cerrada");
 			}
 		}
 		catch (Exception e){

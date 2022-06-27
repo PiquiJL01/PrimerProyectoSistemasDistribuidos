@@ -3,6 +3,8 @@ package Client;
 import Engine.Accion;
 import Engine.Message;
 import Engine.StandNumber;
+import Engine.Writer;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -28,14 +30,19 @@ public class SellerClient{
     private void run() {
         
         try {
+            Writer.Write("Creando Conexion");
+            int sellerServerSocket = 2511;
+            this.sellerServerSocket = new ServerSocket(sellerServerSocket);
             while (true){
-                int sellerServerSocket = 2511;
-                this.sellerServerSocket = new ServerSocket(sellerServerSocket);
+                Writer.Write("Oyendo");
                 this.socket = this.sellerServerSocket.accept();
+                Writer.Write("Conectados");
                 inputStream = new ObjectInputStream(this.socket.getInputStream());
+                outputStream = new ObjectOutputStream(this.socket.getOutputStream());
                 String message = inputStream.readUTF();
+                Writer.Write("Mensaje Recibido" + message);
                 socket.close();
-                if (Message.ReadAccion(message) == Accion.pedir){
+                if (Message.ReadAccion(message) == Accion.pedir.toString()){
                     refillStand(StandNumber.Stand1);
                     refillStand(StandNumber.Stand2);
                     refillStand(StandNumber.Stand3);
@@ -52,20 +59,21 @@ public class SellerClient{
             int serverPORT1 = 2508;
             int serverPORT2 = 2509;
             int serverPORT3 = 2510;
+            Socket socket1 = new Socket();
             switch (standNumber){
                 case Stand1:
-                    this.socket = new Socket(HOST, serverPORT1);
+                    socket1 = new Socket(HOST, serverPORT1);
                     break;
                 case Stand2:
-                    this.socket = new Socket(HOST, serverPORT2);
+                    socket1 = new Socket(HOST, serverPORT2);
                     break;
                 case Stand3:
-                    this.socket = new Socket(HOST, serverPORT3);
+                    socket1 = new Socket(HOST, serverPORT3);
                     break;
             }
-            inputStream = new ObjectInputStream(this.socket.getInputStream());
-            outputStream = new ObjectOutputStream(this.socket.getOutputStream());
-            outputStream.writeUTF(Message.Send(Accion.abastecer));
+            inputStream = new ObjectInputStream(socket1.getInputStream());
+            outputStream = new ObjectOutputStream(socket1.getOutputStream());
+            outputStream.writeUTF(Message.Send(Accion.abastecer.toString()));
             outputStream.close();
             socket.close();
         }catch (Exception ignore){

@@ -10,34 +10,13 @@ public class Message {
     private static final String Tabaco = "Tabaco";
     private static final String Fosforo = "Fosforo";
 
-    public static String Send(Accion accion){
-        String message = "";
-        switch (accion){
-            case buscar:
-                message += Buscar;
-            case pedir:
-                message += Pedir;
-            case recibir:
-                message += Recibir;
-            case abastecer:
-                message += Abastecer;
-            default:
-                message += Error;
-        }
-
-        return message;
+    public static String Send(String accion){
+        return accion;
     }
 
-    public static String Send(Accion accion, Item item){
-        String message = Send(accion);
-        switch (item){
-            case papel:
-                message += Papel;
-            case tabaco:
-                message += Tabaco;
-            case fosforo:
-                message += Fosforo;
-        }
+    public static String Send(String accion, String item){
+        String message = Send(accion.toString());
+        message += item.toString();
         return message;
     }
 
@@ -45,37 +24,37 @@ public class Message {
         return Error;
     }
 
-    public static Accion ReadAccion(String message) throws Exception {
+    public static String ReadAccion(String message) throws Exception {
         if(message.contains(Buscar)){
-            return Accion.buscar;
+            return Accion.buscar.toString();
         }
         if(message.contains(Pedir)){
-            return Accion.pedir;
+            return Accion.pedir.toString();
         }
         if (message.contains(Recibir)) {
-            return Accion.pedir;
+            return Accion.pedir.toString();
         }
         if (message.contains(Abastecer)){
-            return Accion.abastecer;
+            return Accion.abastecer.toString();
         }
         if (message.contains(Error)){
-            return null;
+            return "";
         }
         throw new Exception();
     }
 
-    public static Item ReadItem(String message) throws Exception{
+    public static String ReadItem(String message) throws Exception{
         if (message.contains(Papel)){
-            return Item.papel;
+            return Item.papel.toString();
         }
         if (message.contains(Tabaco)){
-            return Item.tabaco;
+            return Item.tabaco.toString();
         }
         if (message.contains(Fosforo)){
-            return Item.fosforo;
+            return Item.fosforo.toString();
         }
         if (message.contains(Error)){
-            return null;
+            return "";
         }
         throw new Exception();
     }
