@@ -4,9 +4,26 @@ import java.util.List;
 import java.util.Random;
 
 public enum Item{
-	papel,
-	tabaco,
-	fosforo;
+	papel("Papel"),
+	tabaco("Tabaco"),
+	fosforo("Fosforo");
+
+	private final String text;
+
+	/**
+	 * @param text
+	 */
+	Item(final String text) {
+		this.text = text;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Enum#toString()
+	 */
+	@Override
+	public String toString() {
+		return text;
+	}
 
 	public static final List<Item> Items =
 			List.of(values());

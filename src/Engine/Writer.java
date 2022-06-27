@@ -9,11 +9,11 @@ public class Writer {
         String itemString = "";
         switch (item){
             case papel:
-                itemString += "Papel";
+                itemString = "Papel";
             case fosforo:
-                itemString += "Fosforo";
+                itemString = "Fosforo";
             case tabaco:
-                itemString += "Tabaco";
+                itemString = "Tabaco";
         }
         System.out.println("Se lleno el Stand con " + itemString);
     }

@@ -44,15 +44,20 @@ public class SmokerClient {
     public void run() throws Exception {
         int requestNumber = 0;
         while(true){
+            TimeUnit.SECONDS.sleep(5);
             try {
+                Writer.Write("Buscando en el stand 1");
                 this.SearchIngredient(StandNumber.Stand1);
             } catch (Exception e){
                 try{
+                    Writer.Write("Buscando en el stand 2");
                     this.SearchIngredient(StandNumber.Stand2);
                 }catch (Exception e2){
                     try{
+                        Writer.Write("Buscando en el stand 3");
                         this.SearchIngredient(StandNumber.Stand3);
                     }catch (Exception e3){
+                        Writer.Write("No se consiguio en los stands");
                         requestNumber += 1;
                         if (requestNumber == 2){
                             this.requestNewIngredients();
@@ -69,24 +74,34 @@ public class SmokerClient {
         for (Item i:
              Item.Items) {
             if(!this.Ingredients.get(i)){
+                Writer.Write("Buscando " + i.toString());
                 try{
                     setConnection(standNumber);
-                    outputStream.writeUTF(Message.Send(Accion.buscar, i));
+                    Writer.Write("Enviando Mensaje");
+                    outputStream.writeUTF(Message.Send(Accion.buscar.toString(), i.toString()));
+                    Writer.Write("Mensaje Enviado");
                     outputStream.flush();
-                    String message = inputStream.readUTF();
+                    Writer.Write("Leyendo Respuesta");
+                    boolean inMessage = inputStream.readBoolean();
+                    Writer.Write("Mensaje recibido");
                     outputStream.close();
                     socket.close();
-                    if (Message.ReadAccion(message) == Accion.recibir){
+                    if (inMessage){
+                        Writer.Write("Ingrediente Conseguido");
                         this.Ingredients.replace(i, true);
                     }else {
+                        Writer.Write("Ingrediente no Conseguido");
                         throw new Exception();
                     }
-                }catch (IOException ignored){ }
+                }catch (IOException e){
+                    Writer.Write("Error Buscando Ingrediente");
+                }
             }
         }
     }
 
     private void setConnection(StandNumber standNumber) throws IOException {
+        Writer.Write("Creando Conexion");
         int serverPORT1 = 2508;
         int serverPORT2 = 2509;
         int serverPORT3 = 2510;
@@ -103,15 +118,17 @@ public class SmokerClient {
         }
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
+        Writer.Write("Conexion creada");
     }
 
     private void requestNewIngredients() throws IOException {
+        Writer.Write("Solicitando Refrescar");
         int sellerPORT = 2511;
         socket = new Socket(HOST, sellerPORT);
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
 
-        outputStream.writeUTF(Message.Send(Accion.pedir));
+        outputStream.writeUTF(Message.Send(Accion.pedir.toString()));
         outputStream.flush();
         outputStream.close();
         socket.close();
@@ -134,7 +151,7 @@ public class SmokerClient {
                }
             }
             Writer.Write("Fumando");
-            TimeUnit.SECONDS.sleep(60);
+            TimeUnit.SECONDS.sleep(120);
         }
     }
 }
