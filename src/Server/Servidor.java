@@ -25,23 +25,23 @@ public class Servidor extends Thread  {
 	}
 
 	private void setConnection(StandNumber standNumber) throws IOException {
-		int serverPORT1 = 2508;
-		int serverPORT2 = 2509;
-		int serverPORT3 = 2510;
+		int[] serverPorts = new int[] {2508, 2509, 2510};
 
 		switch (standNumber){
 			case Stand1:
-				serverSocket = new ServerSocket(serverPORT1);
+				serverSocket = new ServerSocket(serverPorts[0]);
 				break;
 			case Stand2:
-				serverSocket = new ServerSocket(serverPORT2);
+				serverSocket = new ServerSocket(serverPorts[1]);
 				break;
 			case Stand3:
-				serverSocket = new ServerSocket(serverPORT3);
+				serverSocket = new ServerSocket(serverPorts[2]);
 				break;
 		}
+
 		socket = new Socket();
 	}
+
 
 	@Override
 	public void run() {

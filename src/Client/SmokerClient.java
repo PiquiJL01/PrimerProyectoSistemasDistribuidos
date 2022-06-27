@@ -46,6 +46,7 @@ public class SmokerClient {
         while(true){
             try {
                 this.SearchIngredient(StandNumber.Stand1);
+                System.out.println("Buscando en stand: " );
             } catch (Exception e){
                 try{
                     this.SearchIngredient(StandNumber.Stand2);
@@ -134,7 +135,7 @@ public class SmokerClient {
                }
             }
             Writer.Write("Fumando");
-            TimeUnit.SECONDS.sleep(60);
+            Thread.sleep(200);
         }
     }
 }

@@ -17,6 +17,7 @@ public class SellerClient{
     public static void main(String[] args) {
         try {
             SellerClient client = new SellerClient();
+            System.out.println("Vendedor viendo si abastece");
             client.run();
         } catch (Exception e) {
             e.printStackTrace();

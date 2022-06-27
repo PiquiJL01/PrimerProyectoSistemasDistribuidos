@@ -5,16 +5,16 @@ public class Writer {
         System.out.println(message);
     }
 
-    public static void WriteStandContent(Item item){
-        String itemString = "";
-        switch (item){
-            case papel:
-                itemString += "Papel";
-            case fosforo:
-                itemString += "Fosforo";
-            case tabaco:
-                itemString += "Tabaco";
-        }
-        System.out.println("Se lleno el Stand con " + itemString);
+    public static void WriteStandContent(Item item1){
+        // String itemString = "";
+        // switch (item){
+        //     case papel:
+        //         itemString += "Papel";
+        //     case fosforo:
+        //         itemString += "Fosforo";
+        //     case tabaco:
+        //         itemString += "Tabaco";
+        // }
+        System.out.println("Se lleno el Stand con [" + item1 +"]");
     }
 }
