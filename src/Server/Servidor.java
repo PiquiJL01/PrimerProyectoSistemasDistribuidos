@@ -53,7 +53,7 @@ public class Servidor extends Thread  {
 				this.outputStream = new ObjectOutputStream(this.socket.getOutputStream());
 				String message = this.inputStream.readUTF();
 				switch (Message.ReadAccion(message)){
-					case "Buscar":
+					case Message.Buscar:
 						boolean flag = this.stand.getIngredient(Message.ReadItem(message));
 						if(flag){
 							Writer.Write("Inviando Paquete");
@@ -63,7 +63,7 @@ public class Servidor extends Thread  {
 						}
 						this.outputStream.flush();
 						break;
-					case "Abastecer":
+					case Message.Abastecer:
 						this.stand.refill();
 						break;
 				}

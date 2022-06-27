@@ -1,10 +1,10 @@
 package Engine;
 
 public enum Accion {
-	buscar("Buscar"),
-	pedir("Pedir"),
-	recibir("Recibir"),
-	abastecer("Abastecer");
+	buscar(Message.Buscar),
+	pedir(Message.Pedir),
+	recibir(Message.Recibir),
+	abastecer(Message.Abastecer);
 
 	private final String text;
 
