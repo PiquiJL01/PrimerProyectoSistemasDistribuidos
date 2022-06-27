@@ -1,6 +1,0 @@
-
-[2022/06/27 03:18:09] - fumador[Papel] - accion[fumando] - intento: [0] 
-[2022/06/27 03:18:26] - fumador[Papel] - accion[fumando] - intento: [0] 
-[2022/06/27 03:27:27] - fumador[Papel] - accion[fumando] - intento: [1] 
-[2022/06/27 03:27:45] - fumador[Papel] - accion[fumando] - intento: [1] 
-[2022/06/27 03:38:33] - fumador[Papel] - accion[fumando] - intento: [1] 

@@ -26,7 +26,6 @@ public abstract class SmokerClient {
     private String messageToSave = "";
 
     public SmokerClient(Item item) throws UnknownHostException {
-        // this.HOST = InetAddress.getLocalHost().getHostName();
         Ingredients = new HashMap<>();
         infiniteItem = item;
         for (Item i:
@@ -37,23 +36,12 @@ public abstract class SmokerClient {
                 Ingredients.put(i, false);
             }
         }
-        System.out.println("Fumador [" + infiniteItem + "] tiene " + Ingredients);
+        Writer.Write("Fumador [" + infiniteItem + "] tiene " + Ingredients);
         requestNumber = 0;
         log = new LogWriter();
     }
 
-    // public static void main(String[] args){
-    //     try{
-    //         SmokerClient client = new SmokerClient();
-    //         client.run();
-    //     }
-    //     catch (Exception e){
-    //         Writer.Write("Error mientras corre");
-    //     }
-    // }
-
     public void run() throws Exception {
-        // int requestNumber = 0;
         
         while(true){
 
@@ -61,35 +49,29 @@ public abstract class SmokerClient {
             TimeUnit.SECONDS.sleep(2);
             try {
 
-                // messageToSave += "fumador[" + this.infiniteItem + "]" + " - accion[buscando] - stand: Stand1";
-                Writer.Write("Buscando en el stand 1 - intento: " + requestNumber);
+                messageToSave = "fumador[" + infiniteItem + "]" + " - accion[buscando] - intento: [" + (requestNumber+1) +"] - stand: Stand1";
+                System.out.println(messageToSave);
+                log.saveMessageOnFile(messageToSave);
                 this.SearchIngredient(StandNumber.Stand1);
-                // messageToSave += " - intento: [" + this.requestNumber+"]";
-                // Writer.Write(messageToSave);
-                // log.saveMessageOnFile("fumador[" + this.infiniteItem + "]" + " - accion[buscando] - intento: [" + this.requestNumber+"] - stand: Stand1");
             } catch (Exception e){
                 try{
                     // Thread.sleep(2000);
                     TimeUnit.SECONDS.sleep(2);
                     
-                    // messageToSave = "fumador[" + infiniteItem + "]" + " - accion[buscando]";
-                    Writer.Write("Buscando en el stand 2 - intento: " + requestNumber);
-                    this.SearchIngredient(StandNumber.Stand2);
-                    // messageToSave += "- intento: [" + requestNumber+"] - stand: Stand2";
+                    messageToSave = "fumador[" + infiniteItem + "]" + " - accion[buscando] - intento: [" + (requestNumber+1)+"] - stand: Stand2";
+                    
                     Writer.Write(messageToSave);
-                    // log.saveMessageOnFile("fumador[" + this.infiniteItem + "]" + " - accion[buscando] - intento: [" + this.requestNumber+"] - stand: Stand2");
+                    log.saveMessageOnFile(messageToSave);
+                    this.SearchIngredient(StandNumber.Stand2);
                 }catch (Exception e2){
                     try{
                         // Thread.sleep(2000);
                         TimeUnit.SECONDS.sleep(2);
-                        Writer.Write("Buscando en el stand 3  - intento: " + requestNumber);
-                        // String messageToSave = "fumador[" + this.infiniteItem + "]" + " - accion[buscando] - intento: [" + this.requestNumber+"] - stand: Stand3";
-                        
-                        // messageToSave = "fumador[" + this.infiniteItem + "]" + " - accion[buscando] - stand: Stand3";
+                        String messageToSave = "fumador[" + infiniteItem + "]" + " - accion[buscando] - intento: [" + (requestNumber+1)+"] - stand: Stand3";
+                        Writer.Write(messageToSave);
+                        log.saveMessageOnFile(messageToSave);
                         this.SearchIngredient(StandNumber.Stand3);
-                        // messageToSave += "- intento: [" + this.requestNumber+"]";
-                        // Writer.Write(messageToSave);
-                        // log.saveMessageOnFile("fumador[" + this.infiniteItem + "]" + " - accion[buscando] - intento: [" + this.requestNumber+"] - stand: Stand3");
+                        
 
                     }catch (Exception e3){
                         TimeUnit.SECONDS.sleep(2);
@@ -97,6 +79,8 @@ public abstract class SmokerClient {
 
                         this.requestNumber += 1;
                         if (this.requestNumber == 2){
+                            String messageToSave = "fumador[" + infiniteItem + "]" + " - accion[pidiendo] ";
+                            log.saveMessageOnFile(messageToSave);
                             this.requestNewIngredients();
                             this.requestNumber = 0;
                         }
@@ -107,14 +91,17 @@ public abstract class SmokerClient {
         }
     }
 
-    public void SearchIngredient(StandNumber standNumber) throws Exception{
+    public synchronized void SearchIngredient(StandNumber standNumber) throws Exception{
         // Writer.Write("Buscando ingrediente");
         // Thread.sleep(2000);
-
+        boolean inMessage;
         
 
         for (Item i: Item.Items) {
+
+            
             if(!this.Ingredients.get(i)){
+                System.out.println(Ingredients.get(i));
                 Writer.Write("Buscando [" + i.toString() + "] en el " + standNumber);
                 Thread.sleep(500);
                 try{
@@ -127,7 +114,7 @@ public abstract class SmokerClient {
                     outputStream.flush();
                     // Writer.Write("Leyendo Respuesta");
                     Thread.sleep(500);
-                    boolean inMessage = inputStream.readBoolean();
+                    inMessage = inputStream.readBoolean();
                     // Writer.Write("Mensaje recibido");
                     Thread.sleep(2000);
                     outputStream.close();
@@ -138,10 +125,9 @@ public abstract class SmokerClient {
                         this.Ingredients.replace(i, true);
                     }else {
                         Writer.Write("Ingrediente no Conseguido");
-                        Thread.sleep(500);
-                        
-
-                        throw new Exception();
+                        // Thread.sleep(500);
+    
+                        // throw new Exception();
                     }
                 }catch (IOException e){
                     Writer.Write("Error Buscando Ingrediente");
@@ -150,7 +136,7 @@ public abstract class SmokerClient {
         }
     }
 
-    private void setConnection(StandNumber standNumber) throws IOException {
+    private synchronized void setConnection(StandNumber standNumber) throws IOException {
         // Writer.Write("Creando Conexion");
         int serverPORT1 = 2508;
         int serverPORT2 = 2509;
@@ -171,7 +157,7 @@ public abstract class SmokerClient {
         // Writer.Write("Conexion creada");
     }
 
-    private void requestNewIngredients() throws IOException {
+    private synchronized void requestNewIngredients() throws IOException {
         Writer.Write("Solicitando Refrescar");
         int sellerPORT = 2511;
         socket = new Socket(HOST, sellerPORT);
@@ -185,7 +171,6 @@ public abstract class SmokerClient {
     }
 
     public void Smoke() throws InterruptedException, IOException {
-        // String messageToSend = "";
         Writer.Write("Intentando Fumar");
         Thread.sleep(500);
         boolean canSmoke = true;
@@ -203,9 +188,9 @@ public abstract class SmokerClient {
                    Ingredients.replace(i, false);
                }
             }
-            // messageToSend = "fumador[" + this.infiniteItem + "]" + " - accion[fumando] - intento: [" + this.requestNumber+"] ";
+            String messageToSend = "fumador[" + this.infiniteItem + "]" + " - accion[fumando] - intento: [" + this.requestNumber+"] ";
             Writer.Write("Fumando");
-            // log.saveMessageOnFile(messageToSend);
+            log.saveMessageOnFile(messageToSend);
             // TimeUnit.SECONDS.sleep(5);
             Thread.sleep(5000);
             Writer.Write("Termina de Fumar");

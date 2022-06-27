@@ -5,22 +5,21 @@ import java.net.UnknownHostException;
 import Engine.Item;
 import Engine.Writer;
 
-public class Clients extends SmokerClient {
+public class Fosforo extends SmokerClient{
 
-    public Clients(Item item) throws UnknownHostException {
+    public Fosforo(Item item) throws UnknownHostException {
         super(item);
+       
     }
 
     public static void main(String[] args){
         try{
-            SmokerClient client = new Clients(Item.papel);
+            SmokerClient client = new Fosforo(Item.fosforo);
             client.run();
         }
         catch (Exception e){
             Writer.Write("Error mientras corre");
         }
     }
-
-    
     
 }

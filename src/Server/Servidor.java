@@ -51,6 +51,7 @@ public class Servidor extends Thread  {
 				this.inputStream = new ObjectInputStream(this.socket.getInputStream());
 				this.outputStream = new ObjectOutputStream(this.socket.getOutputStream());
 				String message = this.inputStream.readUTF();
+
 				switch (Message.ReadAccion(message)){
 					case Message.Buscar:
 						boolean flag = this.stand.getIngredient(Message.ReadItem(message));
@@ -66,8 +67,9 @@ public class Servidor extends Thread  {
 						this.stand.refill();
 						break;
 				}
+
 				outputStream.close();
-				// // socket.close();
+				// socket.close();
 				// Writer.Write("Conexion Cerrada");
 			}
 		}
