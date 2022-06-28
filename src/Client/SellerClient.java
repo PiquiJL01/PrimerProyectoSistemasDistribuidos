@@ -43,25 +43,17 @@ public class SellerClient{
                 outputStream = new ObjectOutputStream(this.socket.getOutputStream());
                 String message = inputStream.readUTF();
                 Writer.Write("Mensaje Recibido: " + message);
+                outputStream.close();
                 socket.close();
                 System.out.println("Recibi pedir");
 
-                // este if no se esta cumpliendo
-                // message.equals(Message.Pedir) con esto se soluciona el if
                 if (message == Message.Pedir) {
-                    System.out.println("epa pedir, manda vicio");
                     // si un fumador pide el vendedor refill 2 random stands
                     List<StandNumber> standNumbers = StandNumber.randomStand();
-                    
-                    for (StandNumber standNumber : standNumbers) {
-                        // Writer.Write(standNumber);
-                        System.out.println("Refill [" +standNumber +"]");
-                        refillStand(standNumber);
-                    }
 
-                    // refillStand(StandNumber.Stand1);
-                    // refillStand(StandNumber.Stand2);
-                    // refillStand(StandNumber.Stand3);
+                    refillStand(StandNumber.Stand1);
+                    refillStand(StandNumber.Stand2);
+                    refillStand(StandNumber.Stand3);
                 } 
                 // else {
                 //     System.out.println("Epa estoy recibiendo " + message+ " y no estoy entrando en el if");

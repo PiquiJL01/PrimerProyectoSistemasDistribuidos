@@ -163,7 +163,8 @@ public abstract class SmokerClient {
     private synchronized void requestNewIngredients() throws IOException {
         Writer.Write("Solicitando Refrescar");
         int sellerPORT = 2511;
-        socket = new Socket(HOST, sellerPORT);
+        String sellerHOST = "25.82.154.47";
+        socket = new Socket(sellerHOST, sellerPORT);
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
 
