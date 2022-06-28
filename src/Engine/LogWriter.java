@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 public class LogWriter {
 	public void saveMessageOnFile(String message) throws IOException {
-        String route = "/home/rubendgomes/Documents/GitHub/PrimerProyectoSistemasDistribuidos/src/Engine/log.txt";
+        String route = "C:\\Users\\inmun\\source\\repos\\PrimerProyectoSistemasDistribuidos\\src\\Engine\\log.txt";
         File file = new File(route);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();

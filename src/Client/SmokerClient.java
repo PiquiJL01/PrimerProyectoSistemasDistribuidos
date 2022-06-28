@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 // import java.util.concurrent.TimeUnit;
 
 public abstract class SmokerClient {
-    private final String HOST = "localhost";
+    private final String HOST = "25.13.191.185";
     // private final String HOST;
     protected Socket socket;
     protected ObjectInputStream inputStream;
@@ -81,7 +81,10 @@ public abstract class SmokerClient {
                         if (this.requestNumber == 2){
                             String messageToSave = "fumador[" + infiniteItem + "]" + " - accion[pidiendo] ";
                             log.saveMessageOnFile(messageToSave);
-                            this.requestNewIngredients();
+                            try{
+                                this.requestNewIngredients();
+                            }
+                            catch (Exception ignore){}
                             this.requestNumber = 0;
                         }
                     }
@@ -127,7 +130,7 @@ public abstract class SmokerClient {
                         Writer.Write("Ingrediente no Conseguido");
                         // Thread.sleep(500);
     
-                        // throw new Exception();
+                        throw new Exception();
                     }
                 }catch (IOException e){
                     Writer.Write("Error Buscando Ingrediente");
