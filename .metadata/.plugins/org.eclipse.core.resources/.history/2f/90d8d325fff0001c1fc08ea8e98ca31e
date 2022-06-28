@@ -1,0 +1,4 @@
+module PrimerProyectoSistemasDistribuidos {
+	requires java.rmi;
+	requires java.logging;
+}

@@ -17,64 +17,48 @@ public class Servidor extends Thread  {
 	private final Stand stand;
 	private final StandNumber standNumber;
 	
-	public Servidor(StandNumber standNumber){
+	public Servidor(Socket socket, StandNumber standNumber, Stand stand){
+		this.socket = socket;
 		this.standNumber = standNumber;
-		this.stand = new Stand();
+		this.stand = stand;
 	}
 
 
 	@Override
 	public void run() {
 		try {
-			int serverPORT1 = 2508;
-			int serverPORT2 = 2509;
-			int serverPORT3 = 2510;
+			Writer.Write("Conectados");
+			this.inputStream = new ObjectInputStream(this.socket.getInputStream());
+			this.outputStream = new ObjectOutputStream(this.socket.getOutputStream());
+			String message = this.inputStream.readUTF();
 
-			switch (standNumber){
-				case Stand1:
-					serverSocket = new ServerSocket(serverPORT1);
+			switch (Message.ReadAccion(message)){
+				case Message.Buscar:
+					boolean flag = this.stand.getIngredient(Message.ReadItem(message));
+					if(flag){
+						Writer.Write("Enviando Paquete");
+						this.outputStream.writeBoolean(true);
+					} else {
+						this.outputStream.writeBoolean(false);
+					}
+					this.outputStream.flush();
 					break;
-				case Stand2:
-					serverSocket = new ServerSocket(serverPORT2);
-					break;
-				case Stand3:
-					serverSocket = new ServerSocket(serverPORT3);
+				case Message.Abastecer:
+					this.stand.refill();
 					break;
 			}
-			while (true){
-				// Writer.Write("Creando Conexion");
-				socket = new Socket();
-				// Writer.Write("Conexion Creada");
-				// Writer.Write("Oyendo");
-				this.socket = this.serverSocket.accept();
-				Writer.Write("Conectados");
-				this.inputStream = new ObjectInputStream(this.socket.getInputStream());
-				this.outputStream = new ObjectOutputStream(this.socket.getOutputStream());
-				String message = this.inputStream.readUTF();
-
-				switch (Message.ReadAccion(message)){
-					case Message.Buscar:
-						boolean flag = this.stand.getIngredient(Message.ReadItem(message));
-						if(flag){
-							Writer.Write("Enviando Paquete");
-							this.outputStream.writeBoolean(true);
-						} else {
-							this.outputStream.writeBoolean(false);
-						}
-						this.outputStream.flush();
-						break;
-					case Message.Abastecer:
-						this.stand.refill();
-						break;
-				}
-
-				outputStream.close();
-				// socket.close();
-				// Writer.Write("Conexion Cerrada");
-			}
+			Writer.Write("Cerrando");
+			outputStream.close();
+			socket.close();
 		}
 		catch (Exception e){
 			Writer.Write("Error: " + e.toString());
 		}
+		Writer.Write("Fin");
+		return;
+	}
+
+	public Stand getStand() {
+		return stand;
 	}
 }

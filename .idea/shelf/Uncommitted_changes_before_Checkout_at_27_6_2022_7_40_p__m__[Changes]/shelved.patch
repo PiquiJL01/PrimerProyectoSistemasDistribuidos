@@ -1,0 +1,111 @@
+Index: src/Client/SmokerClient.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Client;\r\n\r\nimport Engine.*;\r\n\r\nimport java.io.IOException;\r\nimport java.io.ObjectInputStream;\r\nimport java.io.ObjectOutputStream;\r\nimport java.net.Socket;\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\nimport java.util.concurrent.TimeUnit;\r\n\r\npublic class SmokerClient {\r\n    private final String HOST = \"localhost\";\r\n    protected Socket socket;\r\n    protected ObjectInputStream inputStream;\r\n    protected ObjectOutputStream outputStream;\r\n    private final Map<Item, Boolean> Ingredients;\r\n    private final Item infiniteItem;\r\n\r\n    public SmokerClient() {\r\n        Ingredients = new HashMap<>();\r\n        infiniteItem = Item.randomItem();\r\n        for (Item i:\r\n             Item.Items) {\r\n            if(i == infiniteItem){\r\n                Ingredients.put(i, true);\r\n            }else{\r\n                Ingredients.put(i, false);\r\n            }\r\n        }\r\n    }\r\n\r\n    public static void main(String[] args){\r\n        try{\r\n            SmokerClient client = new SmokerClient();\r\n            client.run();\r\n        }\r\n        catch (Exception e){\r\n            Writer.Write(\"Error mientras corre\");\r\n        }\r\n    }\r\n\r\n    public void run() throws Exception {\r\n        int requestNumber = 0;\r\n        while(true){\r\n            TimeUnit.SECONDS.sleep(1);\r\n            try {\r\n                Writer.Write(\"Buscando en el stand 1\");\r\n                this.SearchIngredient(StandNumber.Stand1);\r\n            } catch (Exception e){\r\n                try{\r\n                    TimeUnit.SECONDS.sleep(1);\r\n                    Writer.Write(\"Buscando en el stand 2\");\r\n                    this.SearchIngredient(StandNumber.Stand2);\r\n                }catch (Exception e2){\r\n                    try{\r\n                        TimeUnit.SECONDS.sleep(1);\r\n                        Writer.Write(\"Buscando en el stand 3\");\r\n                        this.SearchIngredient(StandNumber.Stand3);\r\n                    }catch (Exception e3){\r\n                        TimeUnit.SECONDS.sleep(1);\r\n                        Writer.Write(\"No se consiguio en los stands\");\r\n                        requestNumber += 1;\r\n                        if (requestNumber == 2){\r\n                            this.requestNewIngredients();\r\n                            requestNumber = 0;\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n            this.Smoke();\r\n        }\r\n    }\r\n\r\n    public void SearchIngredient(StandNumber standNumber) throws Exception{\r\n        Writer.Write(\"Buscando ingrediente\");\r\n        for (Item i:\r\n             Item.Items) {\r\n            if(!this.Ingredients.get(i)){\r\n                Writer.Write(\"Buscando \" + i.toString());\r\n                try{\r\n                    setConnection(standNumber);\r\n                    Writer.Write(\"Enviando Mensaje\");\r\n                    outputStream.writeUTF(Message.Buscar + i.toString());\r\n                    Writer.Write(\"Mensaje Enviado\");\r\n                    outputStream.flush();\r\n                    Writer.Write(\"Leyendo Respuesta\");\r\n                    boolean inMessage = inputStream.readBoolean();\r\n                    Writer.Write(\"Mensaje recibido\");\r\n                    outputStream.close();\r\n                    socket.close();\r\n                    if (inMessage){\r\n                        Writer.Write(\"Ingrediente Conseguido\");\r\n                        this.Ingredients.replace(i, true);\r\n                    }else {\r\n                        Writer.Write(\"Ingrediente no Conseguido\");\r\n                        throw new Exception();\r\n                    }\r\n                }catch (IOException e){\r\n                    Writer.Write(\"Error Buscando Ingrediente\");\r\n                }\r\n            }\r\n        }\r\n    }\r\n\r\n    private void setConnection(StandNumber standNumber) throws IOException {\r\n        Writer.Write(\"Creando Conexion\");\r\n        int serverPORT1 = 2508;\r\n        int serverPORT2 = 2509;\r\n        int serverPORT3 = 2510;\r\n        switch (standNumber){\r\n            case Stand1:\r\n                socket = new Socket(HOST, serverPORT1);\r\n                break;\r\n            case Stand2:\r\n                socket = new Socket(HOST, serverPORT2);\r\n                break;\r\n            case Stand3:\r\n                socket = new Socket(HOST, serverPORT3);\r\n                break;\r\n        }\r\n        outputStream = new ObjectOutputStream(socket.getOutputStream());\r\n        inputStream = new ObjectInputStream(socket.getInputStream());\r\n        Writer.Write(\"Conexion creada\");\r\n    }\r\n\r\n    private void requestNewIngredients() throws IOException {\r\n        Writer.Write(\"Solicitando Refrescar\");\r\n        int sellerPORT = 2511;\r\n        socket = new Socket(HOST, sellerPORT);\r\n        outputStream = new ObjectOutputStream(socket.getOutputStream());\r\n        inputStream = new ObjectInputStream(socket.getInputStream());\r\n\r\n        outputStream.writeUTF(Message.Pedir);\r\n        outputStream.flush();\r\n        outputStream.close();\r\n        socket.close();\r\n    }\r\n\r\n    public void Smoke() throws InterruptedException {\r\n        Writer.Write(\"Intentando Fumar\");\r\n        boolean canSmoke = true;\r\n        for (Item i:\r\n             Item.Items) {\r\n            if(!Ingredients.get(i)){\r\n                canSmoke = false;\r\n            }\r\n        }\r\n        if(canSmoke){\r\n            for (Item i:\r\n                 Item.Items) {\r\n               if(i != infiniteItem){\r\n                   Ingredients.replace(i, false);\r\n               }\r\n            }\r\n            Writer.Write(\"Fumando\");\r\n            TimeUnit.SECONDS.sleep(5);\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Client/SmokerClient.java b/src/Client/SmokerClient.java
+--- a/src/Client/SmokerClient.java	
++++ b/src/Client/SmokerClient.java	
+@@ -11,7 +11,7 @@
+ import java.util.concurrent.TimeUnit;
+ 
+ public class SmokerClient {
+-    private final String HOST = "localhost";
++    private final String HOST = "25.13.191.185";
+     protected Socket socket;
+     protected ObjectInputStream inputStream;
+     protected ObjectOutputStream outputStream;
+Index: .idea/inspectionProfiles/Project_Default.xml
+===================================================================
+diff --git a/.idea/inspectionProfiles/Project_Default.xml b/.idea/inspectionProfiles/Project_Default.xml
+deleted file mode 100644
+--- a/.idea/inspectionProfiles/Project_Default.xml	
++++ /dev/null	
+@@ -1,9 +0,0 @@
+-<component name="InspectionProjectProfileManager">
+-  <profile version="1.0">
+-    <option name="myName" value="Project Default" />
+-    <inspection_tool class="EmptyStatementBody" enabled="false" level="WARNING" enabled_by_default="false">
+-      <option name="m_reportEmptyBlocks" value="true" />
+-    </inspection_tool>
+-    <inspection_tool class="InfiniteLoopStatement" enabled="false" level="WARNING" enabled_by_default="false" />
+-  </profile>
+-</component>
+\ No newline at end of file
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+deleted file mode 100644
+--- a/.idea/.gitignore	
++++ /dev/null	
+@@ -1,8 +0,0 @@
+-# Default ignored files
+-/shelf/
+-/workspace.xml
+-# Editor-based HTTP Client requests
+-/httpRequests/
+-# Datasource local storage ignored files
+-/dataSources/
+-/dataSources.local.xml
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_9\" project-jdk-name=\"11\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	
++++ b/.idea/misc.xml	
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_9" project-jdk-name="11" project-jdk-type="JavaSDK">
+-    <output url="file://$PROJECT_DIR$/out" />
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="JavaSE-16" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/classes" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"CompilerConfiguration\">\r\n    <bytecodeTargetLevel target=\"9\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--- a/.idea/compiler.xml	
++++ b/.idea/compiler.xml	
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="CompilerConfiguration">
+-    <bytecodeTargetLevel target="9" />
++    <bytecodeTargetLevel target="11" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: PrimerProyectoSistemasDistribuidos.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"JAVA_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <output url=\"file://$MODULE_DIR$/bin\" />\r\n    <exclude-output />\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <sourceFolder url=\"file://$MODULE_DIR$/src\" isTestSource=\"false\" />\r\n    </content>\r\n    <orderEntry type=\"jdk\" jdkName=\"11\" jdkType=\"JavaSDK\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/PrimerProyectoSistemasDistribuidos.iml b/PrimerProyectoSistemasDistribuidos.iml
+--- a/PrimerProyectoSistemasDistribuidos.iml	
++++ b/PrimerProyectoSistemasDistribuidos.iml	
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <module type="JAVA_MODULE" version="4">
+-  <component name="NewModuleRootManager">
++  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
+     <output url="file://$MODULE_DIR$/bin" />
+     <exclude-output />
+     <content url="file://$MODULE_DIR$">
