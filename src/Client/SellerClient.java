@@ -30,7 +30,7 @@ public class SellerClient{
     }
 
     private void run() {
-        
+        log = new LogWriter();
         try {
             Writer.Write("Creando Conexion");
             int sellerServerSocket = 2511;
@@ -44,12 +44,16 @@ public class SellerClient{
                 String message = inputStream.readUTF();
                 Writer.Write("Mensaje Recibido: " + message);
                 socket.close();
-                System.out.println("Recibi pedir");
+                // System.out.println("Recibi pedir");
+
+                if (message.equals(Message.Pedir)) {
+                    log.saveMessageOnFile("accion: abastecer - vendedor ");
+                }
 
                 // este if no se esta cumpliendo
                 // message.equals(Message.Pedir) con esto se soluciona el if
                 if (message == Message.Pedir) {
-                    System.out.println("epa pedir, manda vicio");
+                    // System.out.println("epa pedir, manda vicio");
                     // si un fumador pide el vendedor refill 2 random stands
                     List<StandNumber> standNumbers = StandNumber.randomStand();
                     
@@ -75,7 +79,7 @@ public class SellerClient{
         }
     }
 
-    private synchronized void refillStand(StandNumber standNumber){
+    private void refillStand(StandNumber standNumber){
         try {
             String HOST = "localhost";
             int serverPORT1 = 2508;

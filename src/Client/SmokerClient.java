@@ -57,6 +57,7 @@ public abstract class SmokerClient {
                 try{
                     // Thread.sleep(2000);
                     TimeUnit.SECONDS.sleep(2);
+                    System.out.println(e.getMessage());
                     
                     messageToSave = "fumador[" + infiniteItem + "]" + " - accion[buscando] - intento: [" + (requestNumber+1)+"] - stand: Stand2";
                     
@@ -66,6 +67,7 @@ public abstract class SmokerClient {
                 }catch (Exception e2){
                     try{
                         // Thread.sleep(2000);
+                        System.out.println(e2.getMessage());
                         TimeUnit.SECONDS.sleep(2);
                         String messageToSave = "fumador[" + infiniteItem + "]" + " - accion[buscando] - intento: [" + (requestNumber+1)+"] - stand: Stand3";
                         Writer.Write(messageToSave);
@@ -76,6 +78,7 @@ public abstract class SmokerClient {
                     }catch (Exception e3){
                         TimeUnit.SECONDS.sleep(2);
                         Writer.Write("No se consiguio en los stands");
+                        System.out.println(e3.getMessage());
 
                         this.requestNumber += 1;
                         if (this.requestNumber == 2){
@@ -91,17 +94,17 @@ public abstract class SmokerClient {
         }
     }
 
-    public synchronized void SearchIngredient(StandNumber standNumber) throws Exception{
+    public void SearchIngredient(StandNumber standNumber) throws Exception{
         // Writer.Write("Buscando ingrediente");
-        // Thread.sleep(2000);
-        boolean inMessage;
+            // Thread.sleep(2000);
+        // boolean inMessage;
         
 
         for (Item i: Item.Items) {
 
             
             if(!this.Ingredients.get(i)){
-                System.out.println(Ingredients.get(i));
+                // System.out.println(Ingredients.get(i));
                 Writer.Write("Buscando [" + i.toString() + "] en el " + standNumber);
                 Thread.sleep(500);
                 try{
@@ -114,7 +117,7 @@ public abstract class SmokerClient {
                     outputStream.flush();
                     // Writer.Write("Leyendo Respuesta");
                     Thread.sleep(500);
-                    inMessage = inputStream.readBoolean();
+                    boolean inMessage = inputStream.readBoolean();
                     // Writer.Write("Mensaje recibido");
                     Thread.sleep(2000);
                     outputStream.close();
@@ -136,7 +139,7 @@ public abstract class SmokerClient {
         }
     }
 
-    private synchronized void setConnection(StandNumber standNumber) throws IOException {
+    private void setConnection(StandNumber standNumber) throws IOException {
         // Writer.Write("Creando Conexion");
         int serverPORT1 = 2508;
         int serverPORT2 = 2509;
@@ -157,7 +160,7 @@ public abstract class SmokerClient {
         // Writer.Write("Conexion creada");
     }
 
-    private synchronized void requestNewIngredients() throws IOException {
+    private void requestNewIngredients() throws IOException {
         Writer.Write("Solicitando Refrescar");
         int sellerPORT = 2511;
         socket = new Socket(HOST, sellerPORT);

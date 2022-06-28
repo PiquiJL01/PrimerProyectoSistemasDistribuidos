@@ -1,0 +1,42 @@
+
+[2022/06/28 10:01:56] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:02:07] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:07:56] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:08:07] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:08:12] - fumador[Fosforo] - accion[fumando] - intento: [0] 
+[2022/06/28 10:08:52] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:09:03] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:10:00] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:10:11] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:10:16] - fumador[Fosforo] - accion[fumando] - intento: [0] 
+[2022/06/28 10:10:23] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:11:27] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:11:37] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:12:57] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:13:01] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:13:11] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:13:22] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:13:32] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:13:43] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:15:11] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:15:21] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:18:15] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:18:26] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:18:33] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:20:05] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:20:16] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:20:26] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:27:17] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:27:27] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:27:38] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:27:48] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:27:59] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:28:09] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:28:19] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:28:55] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:29:20] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:29:34] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:29:39] - fumador[Fosforo] - accion[fumando] - intento: [0] 
+[2022/06/28 10:29:46] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:29:56] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 10:30:07] - fumador[Fosforo] - accion[buscando] - intento: [1] - stand: Stand1

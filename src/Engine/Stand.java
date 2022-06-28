@@ -7,12 +7,12 @@ public class Stand {
 		refill();
 	}
 
-	public synchronized void refill(){
+	public void refill(){
 		ingredient1 = Item.randomItem().toString();
 		Writer.Write("Stand llenado con " + ingredient1);
 	}
 
-	public synchronized boolean getIngredient(String item) {
+	public boolean getIngredient(String item) {
 		Writer.Write("Buscando " + item);
 		Writer.Write(ingredient1);
 		if(item == ingredient1){
