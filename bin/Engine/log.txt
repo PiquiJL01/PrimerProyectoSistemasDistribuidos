@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 [2022/06/27 19:50:25] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
 [2022/06/27 19:51:01] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
@@ -38,3 +39,5 @@
 [2022/06/27 21:33:29] - fumador[Papel] - accion[buscando] - intento: [1]
 [2022/06/27 21:34:06] - fumador[Papel] - accion[buscando] - intento: [1]
 [2022/06/27 21:35:17] - fumador[Papel] - accion[buscando] - intento: [1]
+=======
+>>>>>>> parent of 8484d6f (Version SoloSocket)
