@@ -1,0 +1,79 @@
+
+[2022/06/28 08:20:06] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 08:20:17] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 08:20:29] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 08:20:41] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 08:20:52] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 08:21:04] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 08:21:11] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 08:21:17] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand2
+[2022/06/28 08:21:24] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand3
+[2022/06/28 08:21:33] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand1
+[2022/06/28 08:21:40] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand2
+[2022/06/28 08:21:46] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand3
+[2022/06/28 08:21:53] - fumador[Papel] - accion[pidiendo] 
+[2022/06/28 08:23:15] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 08:23:23] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand2
+[2022/06/28 08:23:30] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand3
+[2022/06/28 09:01:54] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 09:02:16] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand2
+[2022/06/28 09:02:23] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand3
+[2022/06/28 09:02:37] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand1
+[2022/06/28 09:02:43] - fumador[Papel] - accion[fumando] - intento: [1] 
+[2022/06/28 09:02:50] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand1
+[2022/06/28 09:03:06] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand2
+[2022/06/28 09:03:13] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand3
+[2022/06/28 09:03:20] - fumador[Papel] - accion[pidiendo] 
+[2022/06/28 09:03:43] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 09:04:29] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 09:04:36] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand2
+[2022/06/28 09:04:43] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand3
+[2022/06/28 09:04:53] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand1
+[2022/06/28 09:04:59] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand2
+[2022/06/28 09:05:07] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand3
+[2022/06/28 09:05:13] - fumador[Papel] - accion[pidiendo] 
+[2022/06/28 09:05:19] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 09:05:26] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand2
+[2022/06/28 09:05:32] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand3
+[2022/06/28 09:05:42] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand1
+[2022/06/28 09:05:48] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand2
+[2022/06/28 09:05:55] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand3
+[2022/06/28 09:06:01] - fumador[Papel] - accion[pidiendo] 
+[2022/06/28 09:06:07] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 09:06:16] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand2
+[2022/06/28 09:06:22] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand3
+[2022/06/28 09:06:31] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand1
+[2022/06/28 09:10:11] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 09:10:57] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 09:11:42] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 09:12:28] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 09:13:14] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 09:14:15] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 09:14:43] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand2
+[2022/06/28 09:14:50] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand3
+[2022/06/28 09:15:21] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand1
+[2022/06/28 09:15:27] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand2
+[2022/06/28 09:15:34] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand3
+[2022/06/28 09:15:46] - fumador[Papel] - accion[pidiendo] 
+[2022/06/28 09:16:09] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 09:16:16] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand2
+[2022/06/28 09:16:22] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand3
+[2022/06/28 09:16:28] - fumador[Papel] - accion[fumando] - intento: [0] 
+[2022/06/28 09:16:35] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 09:16:41] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand2
+[2022/06/28 09:16:48] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand3
+[2022/06/28 09:16:59] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand1
+[2022/06/28 09:17:06] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand2
+[2022/06/28 09:17:13] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand3
+[2022/06/28 09:17:25] - fumador[Papel] - accion[pidiendo] 
+[2022/06/28 09:17:48] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 09:17:55] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand2
+[2022/06/28 09:18:02] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand3
+[2022/06/28 09:18:11] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand1
+[2022/06/28 09:18:17] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand2
+[2022/06/28 09:18:24] - fumador[Papel] - accion[buscando] - intento: [2] - stand: Stand3
+[2022/06/28 09:18:30] - fumador[Papel] - accion[pidiendo] 
+[2022/06/28 09:18:54] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 09:19:01] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand2
+[2022/06/28 09:21:28] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand1
+[2022/06/28 09:21:35] - fumador[Papel] - accion[buscando] - intento: [1] - stand: Stand2

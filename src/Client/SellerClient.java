@@ -1,6 +1,7 @@
 package Client;
 
-import Engine.Accion;
+// import Engine.Accion;
+import Engine.LogWriter;
 import Engine.Message;
 import Engine.StandNumber;
 import Engine.Writer;
@@ -9,16 +10,19 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 
 public class SellerClient{
     protected ServerSocket sellerServerSocket;
     protected Socket socket;
     protected ObjectInputStream inputStream;
     protected ObjectOutputStream outputStream;
+    private LogWriter log;
 
     public static void main(String[] args) {
         try {
             SellerClient client = new SellerClient();
+            System.out.println("Vendedor viendo si abastece");
             client.run();
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,19 +43,31 @@ public class SellerClient{
                 outputStream = new ObjectOutputStream(this.socket.getOutputStream());
                 String message = inputStream.readUTF();
                 Writer.Write("Mensaje Recibido: " + message);
+                outputStream.close();
                 socket.close();
-                if (message == Message.Pedir){
+                System.out.println("Recibi pedir");
+
+                if (message == Message.Pedir) {
+                    // si un fumador pide el vendedor refill 2 random stands
+                    List<StandNumber> standNumbers = StandNumber.randomStand();
+
                     refillStand(StandNumber.Stand1);
                     refillStand(StandNumber.Stand2);
                     refillStand(StandNumber.Stand3);
-                }
+                } 
+                // else {
+                //     System.out.println("Epa estoy recibiendo " + message+ " y no estoy entrando en el if");
+                //     System.out.println("Prueba 1 " + message == Message.Pedir );
+                //     System.out.println("Prueba 2 " + message.equals(Message.Pedir));
+                    
+                // }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void refillStand(StandNumber standNumber){
+    private synchronized void refillStand(StandNumber standNumber){
         try {
             String HOST = "localhost";
             int serverPORT1 = 2508;
@@ -75,6 +91,7 @@ public class SellerClient{
             outputStream.close();
             socket.close();
         }catch (Exception ignore){
+            Writer.Write(ignore.toString());
         }
     }
 }
