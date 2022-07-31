@@ -1,12 +1,10 @@
 package Server;
 
-import java.io.IOException;
 // import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Objects;
 
 import Engine.*;
 
@@ -23,6 +21,7 @@ public class Servidor extends Thread  {
 		this.standNumber = standNumber;
 		this.stand = new Stand();
 	}
+
 
 	@Override
 	public void run() {
@@ -43,20 +42,21 @@ public class Servidor extends Thread  {
 					break;
 			}
 			while (true){
-				Writer.Write("Creando Conexion");
+				// Writer.Write("Creando Conexion");
 				socket = new Socket();
-				Writer.Write("Conexion Creada");
-				Writer.Write("Oyendo");
+				// Writer.Write("Conexion Creada");
+				// Writer.Write("Oyendo");
 				this.socket = this.serverSocket.accept();
 				Writer.Write("Conectados");
 				this.inputStream = new ObjectInputStream(this.socket.getInputStream());
 				this.outputStream = new ObjectOutputStream(this.socket.getOutputStream());
 				String message = this.inputStream.readUTF();
+
 				switch (Message.ReadAccion(message)){
 					case Message.Buscar:
 						boolean flag = this.stand.getIngredient(Message.ReadItem(message));
 						if(flag){
-							Writer.Write("Inviando Paquete");
+							Writer.Write("Enviando Paquete");
 							this.outputStream.writeBoolean(true);
 						} else {
 							this.outputStream.writeBoolean(false);
@@ -67,13 +67,14 @@ public class Servidor extends Thread  {
 						this.stand.refill();
 						break;
 				}
+
 				outputStream.close();
-				//socket.close();
-				Writer.Write("Conexion Cerrada");
+				// socket.close();
+				// Writer.Write("Conexion Cerrada");
 			}
 		}
 		catch (Exception e){
-			Writer.Write(e.toString());
+			Writer.Write("Error: " + e.toString());
 		}
 	}
 }

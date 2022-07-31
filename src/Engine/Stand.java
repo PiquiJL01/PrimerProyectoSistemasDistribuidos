@@ -2,7 +2,6 @@ package Engine;
 
 public class Stand {
 	protected String ingredient1;
-	protected String  ingredient2;
 	
 	public Stand() {
 		refill();
@@ -11,8 +10,6 @@ public class Stand {
 	public void refill(){
 		ingredient1 = Item.randomItem().toString();
 		Writer.Write("Stand llenado con " + ingredient1);
-		ingredient2 = Item.randomItem().toString();
-		Writer.Write("Stand llenado con " + ingredient2);
 	}
 
 	public boolean getIngredient(String item) {
@@ -23,13 +20,9 @@ public class Stand {
 			ingredient1 = null;
 			return true;
 		}
-		Writer.Write(ingredient2);
-		if (item == ingredient2){
-			Writer.Write("Encontrado");
-			ingredient2 = null;
-			return true;
-		}
-		if((ingredient1 == null) && (ingredient2 == null)){
+
+		if((ingredient1 == null)){
+			Writer.Write("haciendo refill");
 			refill();
 		}
 		return false;
