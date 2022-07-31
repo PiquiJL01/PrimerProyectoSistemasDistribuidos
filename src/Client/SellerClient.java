@@ -1,7 +1,6 @@
 package Client;
 
-// import Engine.Accion;
-import Engine.LogWriter;
+import Engine.Accion;
 import Engine.Message;
 import Engine.StandNumber;
 import Engine.Writer;
@@ -10,19 +9,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.List;
 
 public class SellerClient{
     protected ServerSocket sellerServerSocket;
     protected Socket socket;
     protected ObjectInputStream inputStream;
     protected ObjectOutputStream outputStream;
-    private LogWriter log;
 
     public static void main(String[] args) {
         try {
             SellerClient client = new SellerClient();
-            System.out.println("Vendedor viendo si abastece");
             client.run();
         } catch (Exception e) {
             e.printStackTrace();
@@ -30,7 +26,7 @@ public class SellerClient{
     }
 
     private void run() {
-        log = new LogWriter();
+        
         try {
             Writer.Write("Creando Conexion");
             int sellerServerSocket = 2511;
@@ -44,35 +40,11 @@ public class SellerClient{
                 String message = inputStream.readUTF();
                 Writer.Write("Mensaje Recibido: " + message);
                 socket.close();
-                // System.out.println("Recibi pedir");
-
-                if (message.equals(Message.Pedir)) {
-                    log.saveMessageOnFile("accion: abastecer - vendedor ");
+                if (message == Message.Pedir){
+                    refillStand(StandNumber.Stand1);
+                    refillStand(StandNumber.Stand2);
+                    refillStand(StandNumber.Stand3);
                 }
-
-                // este if no se esta cumpliendo
-                // message.equals(Message.Pedir) con esto se soluciona el if
-                if (message == Message.Pedir) {
-                    // System.out.println("epa pedir, manda vicio");
-                    // si un fumador pide el vendedor refill 2 random stands
-                    List<StandNumber> standNumbers = StandNumber.randomStand();
-                    
-                    for (StandNumber standNumber : standNumbers) {
-                        // Writer.Write(standNumber);
-                        System.out.println("Refill [" +standNumber +"]");
-                        refillStand(standNumber);
-                    }
-
-                    // refillStand(StandNumber.Stand1);
-                    // refillStand(StandNumber.Stand2);
-                    // refillStand(StandNumber.Stand3);
-                } 
-                // else {
-                //     System.out.println("Epa estoy recibiendo " + message+ " y no estoy entrando en el if");
-                //     System.out.println("Prueba 1 " + message == Message.Pedir );
-                //     System.out.println("Prueba 2 " + message.equals(Message.Pedir));
-                    
-                // }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,7 +75,6 @@ public class SellerClient{
             outputStream.close();
             socket.close();
         }catch (Exception ignore){
-            Writer.Write(ignore.toString());
         }
     }
 }

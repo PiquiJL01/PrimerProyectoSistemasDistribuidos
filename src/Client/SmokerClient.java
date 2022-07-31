@@ -6,28 +6,21 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-// import java.util.concurrent.TimeUnit;
-
-public abstract class SmokerClient {
+public class SmokerClient {
     private final String HOST = "localhost";
-    // private final String HOST;
     protected Socket socket;
     protected ObjectInputStream inputStream;
     protected ObjectOutputStream outputStream;
     private final Map<Item, Boolean> Ingredients;
     private final Item infiniteItem;
-    private LogWriter log;
-    private int requestNumber;
-    private String messageToSave = "";
 
-    public SmokerClient(Item item) throws UnknownHostException {
+    public SmokerClient() {
         Ingredients = new HashMap<>();
-        infiniteItem = item;
+        infiniteItem = Item.randomItem();
         for (Item i:
              Item.Items) {
             if(i == infiniteItem){
@@ -36,56 +29,42 @@ public abstract class SmokerClient {
                 Ingredients.put(i, false);
             }
         }
-        Writer.Write("Fumador [" + infiniteItem + "] tiene " + Ingredients);
-        requestNumber = 0;
-        log = new LogWriter();
+    }
+
+    public static void main(String[] args){
+        try{
+            SmokerClient client = new SmokerClient();
+            client.run();
+        }
+        catch (Exception e){
+            Writer.Write("Error mientras corre");
+        }
     }
 
     public void run() throws Exception {
-        
+        int requestNumber = 0;
         while(true){
-
-            // Thread.sleep(2000);
-            TimeUnit.SECONDS.sleep(2);
+            TimeUnit.SECONDS.sleep(1);
             try {
-
-                messageToSave = "fumador[" + infiniteItem + "]" + " - accion[buscando] - intento: [" + (requestNumber+1) +"] - stand: Stand1";
-                System.out.println(messageToSave);
-                log.saveMessageOnFile(messageToSave);
+                Writer.Write("Buscando en el stand 1");
                 this.SearchIngredient(StandNumber.Stand1);
             } catch (Exception e){
                 try{
-                    // Thread.sleep(2000);
-                    TimeUnit.SECONDS.sleep(2);
-                    System.out.println(e.getMessage());
-                    
-                    messageToSave = "fumador[" + infiniteItem + "]" + " - accion[buscando] - intento: [" + (requestNumber+1)+"] - stand: Stand2";
-                    
-                    Writer.Write(messageToSave);
-                    log.saveMessageOnFile(messageToSave);
+                    TimeUnit.SECONDS.sleep(1);
+                    Writer.Write("Buscando en el stand 2");
                     this.SearchIngredient(StandNumber.Stand2);
                 }catch (Exception e2){
                     try{
-                        // Thread.sleep(2000);
-                        System.out.println(e2.getMessage());
-                        TimeUnit.SECONDS.sleep(2);
-                        String messageToSave = "fumador[" + infiniteItem + "]" + " - accion[buscando] - intento: [" + (requestNumber+1)+"] - stand: Stand3";
-                        Writer.Write(messageToSave);
-                        log.saveMessageOnFile(messageToSave);
+                        TimeUnit.SECONDS.sleep(1);
+                        Writer.Write("Buscando en el stand 3");
                         this.SearchIngredient(StandNumber.Stand3);
-                        
-
                     }catch (Exception e3){
-                        TimeUnit.SECONDS.sleep(2);
+                        TimeUnit.SECONDS.sleep(1);
                         Writer.Write("No se consiguio en los stands");
-                        System.out.println(e3.getMessage());
-
-                        this.requestNumber += 1;
-                        if (this.requestNumber == 2){
-                            String messageToSave = "fumador[" + infiniteItem + "]" + " - accion[pidiendo] ";
-                            log.saveMessageOnFile(messageToSave);
+                        requestNumber += 1;
+                        if (requestNumber == 2){
                             this.requestNewIngredients();
-                            this.requestNumber = 0;
+                            requestNumber = 0;
                         }
                     }
                 }
@@ -95,42 +74,28 @@ public abstract class SmokerClient {
     }
 
     public void SearchIngredient(StandNumber standNumber) throws Exception{
-        // Writer.Write("Buscando ingrediente");
-            // Thread.sleep(2000);
-        // boolean inMessage;
-        
-
-        for (Item i: Item.Items) {
-
-            
+        Writer.Write("Buscando ingrediente");
+        for (Item i:
+             Item.Items) {
             if(!this.Ingredients.get(i)){
-                // System.out.println(Ingredients.get(i));
-                Writer.Write("Buscando [" + i.toString() + "] en el " + standNumber);
-                Thread.sleep(500);
+                Writer.Write("Buscando " + i.toString());
                 try{
                     setConnection(standNumber);
-                    // Writer.Write("Enviando Mensaje");
-                    Thread.sleep(500);
+                    Writer.Write("Enviando Mensaje");
                     outputStream.writeUTF(Message.Buscar + i.toString());
-                    // Writer.Write("Mensaje Enviado");
-                    Thread.sleep(500);
+                    Writer.Write("Mensaje Enviado");
                     outputStream.flush();
-                    // Writer.Write("Leyendo Respuesta");
-                    Thread.sleep(500);
+                    Writer.Write("Leyendo Respuesta");
                     boolean inMessage = inputStream.readBoolean();
-                    // Writer.Write("Mensaje recibido");
-                    Thread.sleep(2000);
+                    Writer.Write("Mensaje recibido");
                     outputStream.close();
                     socket.close();
                     if (inMessage){
                         Writer.Write("Ingrediente Conseguido");
-                        Thread.sleep(500);
                         this.Ingredients.replace(i, true);
                     }else {
                         Writer.Write("Ingrediente no Conseguido");
-                        // Thread.sleep(500);
-    
-                        // throw new Exception();
+                        throw new Exception();
                     }
                 }catch (IOException e){
                     Writer.Write("Error Buscando Ingrediente");
@@ -140,7 +105,7 @@ public abstract class SmokerClient {
     }
 
     private void setConnection(StandNumber standNumber) throws IOException {
-        // Writer.Write("Creando Conexion");
+        Writer.Write("Creando Conexion");
         int serverPORT1 = 2508;
         int serverPORT2 = 2509;
         int serverPORT3 = 2510;
@@ -157,7 +122,7 @@ public abstract class SmokerClient {
         }
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
-        // Writer.Write("Conexion creada");
+        Writer.Write("Conexion creada");
     }
 
     private void requestNewIngredients() throws IOException {
@@ -173,9 +138,8 @@ public abstract class SmokerClient {
         socket.close();
     }
 
-    public void Smoke() throws InterruptedException, IOException {
+    public void Smoke() throws InterruptedException {
         Writer.Write("Intentando Fumar");
-        Thread.sleep(500);
         boolean canSmoke = true;
         for (Item i:
              Item.Items) {
@@ -183,7 +147,6 @@ public abstract class SmokerClient {
                 canSmoke = false;
             }
         }
-        System.out.println("Fumador [" + infiniteItem + "] tiene " + Ingredients);
         if(canSmoke){
             for (Item i:
                  Item.Items) {
@@ -191,13 +154,8 @@ public abstract class SmokerClient {
                    Ingredients.replace(i, false);
                }
             }
-            String messageToSend = "fumador[" + this.infiniteItem + "]" + " - accion[fumando] - intento: [" + this.requestNumber+"] ";
             Writer.Write("Fumando");
-            log.saveMessageOnFile(messageToSend);
-            // TimeUnit.SECONDS.sleep(5);
-            Thread.sleep(5000);
-            Writer.Write("Termina de Fumar");
-
+            TimeUnit.SECONDS.sleep(5);
         }
     }
 }
